@@ -3,11 +3,11 @@ import {
   createIntl,
   IntlShape,
   MessageDescriptor,
-} from '/Users/pikeman/Downloads/github/TestBankPlatform/node_modules/react-intl';
+} from '/Users/pikeman/Downloads/github/education/node_modules/react-intl';
 import { ApplyPluginsType } from 'umi';
 import { event, LANG_CHANGE_EVENT } from './locale';
 // @ts-ignore
-import warning from '/Users/pikeman/Downloads/github/TestBankPlatform/node_modules/warning/warning.js';
+import warning from '/Users/pikeman/Downloads/github/education/node_modules/warning/warning.js';
 
 import { plugin } from '../core/plugin';
 
@@ -34,7 +34,7 @@ export {
   defineMessages,
   injectIntl,
   useIntl,
-} from '/Users/pikeman/Downloads/github/TestBankPlatform/node_modules/react-intl';
+} from '/Users/pikeman/Downloads/github/education/node_modules/react-intl';
 
 let g_intl: IntlShape;
 
@@ -43,7 +43,7 @@ const useLocalStorage = true;
 export const localeInfo: {[key: string]: any} = {
   'zh-CN': {
     messages: {
-      ...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/pikeman/Downloads/github/TestBankPlatform/src/locales/zh-CN.js')),
+      ...((locale) => locale.__esModule ? locale.default : locale)(require('/Users/pikeman/Downloads/github/education/src/locales/zh-CN.js')),
     },
     locale: 'zh-CN',
     antd: {

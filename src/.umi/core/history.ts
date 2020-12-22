@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { createBrowserHistory } from '/Users/pikeman/Downloads/github/TestBankPlatform/node_modules/@umijs/runtime';
+import { createBrowserHistory } from '/Users/pikeman/Downloads/github/education/node_modules/@umijs/runtime';
 
 let options = {
   "basename": "/"

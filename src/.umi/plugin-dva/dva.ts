@@ -3,13 +3,13 @@ import { Component } from 'react';
 import { ApplyPluginsType } from 'umi';
 import dva from 'dva';
 // @ts-ignore
-import createLoading from '/Users/pikeman/Downloads/github/TestBankPlatform/node_modules/dva-loading/dist/index.esm.js';
+import createLoading from '/Users/pikeman/Downloads/github/education/node_modules/dva-loading/dist/index.esm.js';
 import { plugin, history } from '../core/umiExports';
-import ModelGlobal0 from '/Users/pikeman/Downloads/github/TestBankPlatform/src/models/global.js';
-import ModelLogin1 from '/Users/pikeman/Downloads/github/TestBankPlatform/src/models/login.js';
-import ModelShare2 from '/Users/pikeman/Downloads/github/TestBankPlatform/src/models/Question/share.js';
-import ModelSetting3 from '/Users/pikeman/Downloads/github/TestBankPlatform/src/models/setting.js';
-import ModelUser4 from '/Users/pikeman/Downloads/github/TestBankPlatform/src/models/user.js';
+import ModelGlobal0 from '/Users/pikeman/Downloads/github/education/src/models/global.js';
+import ModelLogin1 from '/Users/pikeman/Downloads/github/education/src/models/login.js';
+import ModelShare2 from '/Users/pikeman/Downloads/github/education/src/models/Question/share.js';
+import ModelSetting3 from '/Users/pikeman/Downloads/github/education/src/models/setting.js';
+import ModelUser4 from '/Users/pikeman/Downloads/github/education/src/models/user.js';
 
 let app:any = null;
 

@@ -6,11 +6,11 @@ import { EffectsCommandMap, SubscriptionAPI } from 'dva';
 import { match } from 'react-router-dom';
 import { Location, LocationState, History } from 'history';
 
-export * from '/Users/pikeman/Downloads/github/TestBankPlatform/src/models/global';
-export * from '/Users/pikeman/Downloads/github/TestBankPlatform/src/models/login';
-export * from '/Users/pikeman/Downloads/github/TestBankPlatform/src/models/Question/share';
-export * from '/Users/pikeman/Downloads/github/TestBankPlatform/src/models/setting';
-export * from '/Users/pikeman/Downloads/github/TestBankPlatform/src/models/user';
+export * from '/Users/pikeman/Downloads/github/education/src/models/global';
+export * from '/Users/pikeman/Downloads/github/education/src/models/login';
+export * from '/Users/pikeman/Downloads/github/education/src/models/Question/share';
+export * from '/Users/pikeman/Downloads/github/education/src/models/setting';
+export * from '/Users/pikeman/Downloads/github/education/src/models/user';
 
 export interface Action<T = any> {
   type: T

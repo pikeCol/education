@@ -5,8 +5,8 @@ import '../global.jsx';
 import { plugin } from './core/plugin';
 import './core/pluginRegister';
 import { createHistory } from './core/history';
-import { ApplyPluginsType } from '/Users/pikeman/Downloads/github/TestBankPlatform/node_modules/@umijs/runtime';
-import { renderClient } from '/Users/pikeman/Downloads/github/TestBankPlatform/node_modules/@umijs/renderer-react/dist/index.js';
+import { ApplyPluginsType } from '/Users/pikeman/Downloads/github/education/node_modules/@umijs/runtime';
+import { renderClient } from '/Users/pikeman/Downloads/github/education/node_modules/@umijs/renderer-react/dist/index.js';
 import { getRoutes } from './core/routes';
 
 
@@ -15,7 +15,7 @@ import { _onCreate } from './plugin-locale/locale';
 _onCreate();
 (() => {
   // Runtime block add component
-  window.GUmiUIFlag = require('/Users/pikeman/Downloads/github/TestBankPlatform/node_modules/@umijs/plugin-ui-blocks/lib/sdk/flagBabelPlugin/GUmiUIFlag.js').default;
+  window.GUmiUIFlag = require('/Users/pikeman/Downloads/github/education/node_modules/@umijs/plugin-ui-blocks/lib/sdk/flagBabelPlugin/GUmiUIFlag.js').default;
 
   // Enable/Disable block add edit mode
   window.addEventListener(
@@ -86,9 +86,9 @@ export default clientRender();
         if (isIE) return;
 
         // Umi UI Bubble
-        require('/Users/pikeman/Downloads/github/TestBankPlatform/node_modules/@umijs/preset-ui/lib/bubble').default({
+        require('/Users/pikeman/Downloads/github/education/node_modules/@umijs/preset-ui/lib/bubble').default({
           port: 3000,
-          path: '/Users/pikeman/Downloads/github/TestBankPlatform',
+          path: '/Users/pikeman/Downloads/github/education',
           currentProject: '',
           isBigfish: undefined,
         });

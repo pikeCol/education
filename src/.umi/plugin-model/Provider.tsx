@@ -1,13 +1,13 @@
 // @ts-nocheck
 import React from 'react';
-import initialState from '/Users/pikeman/Downloads/github/TestBankPlatform/src/.umi/plugin-initial-state/models/initialState';
+import initialState from '/Users/pikeman/Downloads/github/education/src/.umi/plugin-initial-state/models/initialState';
 
 // @ts-ignore
-import Dispatcher from '/Users/pikeman/Downloads/github/TestBankPlatform/node_modules/@umijs/plugin-model/lib/helpers/dispatcher';
+import Dispatcher from '/Users/pikeman/Downloads/github/education/node_modules/@umijs/plugin-model/lib/helpers/dispatcher';
 // @ts-ignore
-import Executor from '/Users/pikeman/Downloads/github/TestBankPlatform/node_modules/@umijs/plugin-model/lib/helpers/executor';
+import Executor from '/Users/pikeman/Downloads/github/education/node_modules/@umijs/plugin-model/lib/helpers/executor';
 // @ts-ignore
-import { UmiContext } from '/Users/pikeman/Downloads/github/TestBankPlatform/node_modules/@umijs/plugin-model/lib/helpers/constant';
+import { UmiContext } from '/Users/pikeman/Downloads/github/education/node_modules/@umijs/plugin-model/lib/helpers/constant';
 
 export const models = { '@@initialState': initialState,  };
 
