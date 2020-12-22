@@ -1,0 +1,66 @@
+.cell {
+  display:flex;
+  justify-content: space-between;
+  align-content: flex-start;
+  .content {
+    padding: 5px 30px;
+    width: 70%;
+    .title {
+      display:flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      font-size: 14px;
+    }
+    .question {
+      font-size: 13px;
+      color: #333333;
+      padding: 20px 0px;
+    }
+    .picture {
+      display:flex;
+      justify-content: start;
+      img {
+        width: 100px;
+        height: 100px;
+        padding: 0 5px;
+      }
+    }
+    .select {
+      display:flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #333333;
+    }
+    .labels {
+      display:flex;
+      justify-content: start;
+      span {
+        padding: 0 10px;
+        background-color: rgb(241, 182, 182);
+        color: white;
+        border-radius: 4px;
+      }
+    }
+  }
+  .left {
+    flex-grow: 1;
+  }
+  .right {
+    width: 300px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .operate {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 55%;
+      div {
+        white-space: nowrap;
+      }
+    }
+  }
+}
+.cell + .cell {
+  border-top: solid #dddddd 1px;
+}

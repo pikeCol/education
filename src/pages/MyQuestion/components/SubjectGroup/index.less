@@ -1,0 +1,30 @@
+.subjectGroup {
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  text-align: center;
+  .inline {
+    
+    display: flex;
+    white-space: nowrap;
+    align-items: center;
+    .title {
+      align-items: center;
+      color: rgba(0, 0, 0, 0.85);
+      font-size: 14px;
+    }
+    .cascader {
+      min-width: 350px;
+      span {
+        text-align: left;
+      }
+    }
+    .unvisibility {
+      visibility: hidden;
+    }
+    
+  }
+  .inline + .inline {
+    margin-top: 24px;
+  }
+}

@@ -1,0 +1,28 @@
+.content {
+  padding: 5px;
+  .richBlock {
+    padding: 0 10px;
+   
+  }
+  .option {
+    display: flex;
+    white-space: nowrap;
+    .left {
+
+    }
+    .right {
+      visibility: hidden;
+    }
+    &:hover {
+      .right {
+        visibility: visible;
+      }
+    }
+  }
+  .title {
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.85);
+    text-align: left;
+    margin-bottom: 10px;
+  }
+}
