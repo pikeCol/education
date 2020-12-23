@@ -67,11 +67,11 @@ const selectOptions = [{
   ]
 }]
 const searchOptions = [{
-  value: '0',
+  value: '6',
   label: '共享'
 },
 {
-  value: '1',
+  value: '5',
   label: '非共享'
 }]
 const useList = (query, page) => {

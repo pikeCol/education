@@ -105,8 +105,9 @@ const MyQuestion = (props) => {
         <QuestionList className={styles.questionTable}
           query={{
             ...query,
-            queryType: 1
+            queryType: 1,
           }}
+          isAudit={true}
           // edit
           // sub
           // rev
