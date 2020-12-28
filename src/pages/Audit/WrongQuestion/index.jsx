@@ -95,6 +95,18 @@ const WrongQuestion = (props) => {
       })
     }
   ]
+
+  {/* 作业卷和题目的状态定义: status 
+    0保存中，草稿  未提交
+    1待审核   / 提交
+    2审核通过  /  发布
+    3审核拒绝
+    4下架
+    5非共享
+    6共享
+    10不是错题
+    11是错题
+    12撤回 */}
   const searchOptions = [{
     value: '1',
     label: '待审核'

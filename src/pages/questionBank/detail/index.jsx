@@ -191,10 +191,11 @@ const useDetail = (params) => {
   return detail
 }
 const QuestionDetail = (props) => {
-  const { match = {}, location = {} } = props
+  const { match = {}, location = {}} = props
   const { params } = match
   const {state = {}} = location
   const { isAudit, isWrong } = state
+  console.log('QuestionDetail isWrong', isAudit, isWrong)
   const detail = useDetail(params)
   const [showModal, setShowModal] = useState(false)
   const backList = () => {
@@ -344,6 +345,17 @@ const QuestionDetail = (props) => {
     const reject = <Button key="reject" onClick={() => {
       onBtnClick('reject')
     }}>未通过</Button>
+    {/* 作业卷和题目的状态定义: status 
+    0保存中，草稿  未提交
+    1待审核   / 提交
+    2审核通过  /  发布
+    3审核拒绝
+    4下架
+    5非共享
+    6共享
+    10不是错题
+    11是错题
+    12撤回 */}
     let btnList = []
     switch (detail.status) {
       case 0:

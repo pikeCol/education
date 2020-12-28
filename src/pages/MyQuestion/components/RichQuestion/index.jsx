@@ -135,7 +135,7 @@ const RichQuestion = (props) => {
   const optionsRender = () => {
     return <>
       <div >
-        { options && options.length && options.map((choose, index) => {
+        { options && options.length > 0 && options.map((choose, index) => {
           return <>
             <OneOption
               title={`选项${alphabet[index]}：`}

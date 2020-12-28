@@ -7,6 +7,13 @@ export async function getQuestionSubject(params) {
   });
 }
 
+export async function getSubjectDictionaryList(params) {
+  return request('/v1/subjectDictionary/list', {
+    method: 'GET',
+    params,
+  });
+}
+
 export async function addQuestionSubject(params) {
   return request('/v1/subjectDictionary/directories', {
     method: 'POST',

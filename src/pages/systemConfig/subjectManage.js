@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Tree, Switch, Modal, Input } from 'antd';
+import { Tree, Switch, Modal, Input, message } from 'antd';
 import { CarryOutOutlined, FormOutlined, MinusOutlined, PlusOutlined, ExclamationCircleOutlined} from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout'
-import { getQuestionSubject, addQuestionSubject, deleteQuestionSubject, updateQuestionSubject } from '@/services/myQuestion/create'
+import { getSubjectDictionaryList, addQuestionSubject, deleteQuestionSubject, updateQuestionSubject } from '@/services/myQuestion/create'
 
 import styles from './index.less'
 
@@ -27,7 +27,7 @@ const SubjectManage = () => {
   }, [])
 
   const initTree = () => {
-    getQuestionSubject().then(res => {
+    getSubjectDictionaryList().then(res => {
       if (res.code < 300) {
         const data = renderTreeNodes(res.data)
         setTreeData(data)
@@ -79,8 +79,12 @@ const SubjectManage = () => {
         setModalVisible(false);
       })
     } else {
+      if (selectedInfo.node.pos.split('-').length >= 6) {
+        message.error('最多添加5个层级')
+        return
+      }
       addQuestionSubject({
-        leaf: selectedInfo.node.root, //是否是叶子节点 1：是
+        leaf: 0, //是否是叶子节点 1：是
         name: inputText,    // 名称
         parentId: selectedInfo.node.id
       }).then(res => {

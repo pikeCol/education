@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { PageHeaderWrapper } from '@ant-design/pro-layout'
 import { history } from 'umi'
-import { Steps, Button, Form, Col, Select, message } from 'antd'
+import { Steps, Button, Form, Col, Select, message, Radio } from 'antd'
 import { getQuestionSubject, createQuestion, updateQUestion } from '@/services/myQuestion/create'
 import { getQuestionDetail } from '@/services/questions/detail';
 import { isEmpty } from 'lodash'
@@ -132,6 +132,7 @@ const MyQuestionCreate = (props) => {
           type: detail.type ? `${detail.type}` : '1',
           difficultyLevel: detail.difficultyLevel,
           tags: detail.tags,
+          sync: detail.sync || 0,
         }} >
         <Form.Item name="subjectTreeNodeIds"
           rules={[{
@@ -163,6 +164,15 @@ const MyQuestionCreate = (props) => {
             message: '选择题目标签'
           }]}>
           <TagsSelect />
+        </Form.Item>
+        <Form.Item name="sync" label="是否同步"
+          rules={[{
+            required: true,
+          }]}>
+          <Radio.Group>
+            <Radio value={0}>否</Radio>
+            <Radio value={1}>是</Radio>
+          </Radio.Group>
         </Form.Item>
       </Form>
     </Col>

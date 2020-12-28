@@ -76,6 +76,7 @@ const statusRender = (status, reason) => {
 }
 const QuestionCell = (props) => {
   const { data = {}, isAudit, isWrong, url, onStateChange, notAllowBtns = [] } = props
+  console.log('QuestionCell========', isAudit, isWrong)
   const { question,
     difficultyLevel = 0,
     type,
