@@ -7,8 +7,17 @@ export function changeQuestionStatus(params) {
   });
 }
 export async function getWrongQuestionList(params) {
+  let p = {}
+  if (params.subject) {
+    p = {
+      ...params,
+      subject: params.subject.join(',')
+    }
+  } else {
+    p = params
+  }
   return request('/v1/audit/correctAudit/list', {
     method: 'GET',
-    params
+    params: p
   });
 }

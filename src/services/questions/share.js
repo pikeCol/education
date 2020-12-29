@@ -7,9 +7,18 @@ export async function getQuestionQuerys(params) {
   });
 }
 export async function getQuestionShareList(params) {
+  let p = {}
+  if (params.subject) {
+    p = {
+      ...params,
+      subject: params.subject.join(',')
+    }
+  } else {
+    p = params
+  }
   return request('/v1/paper/share/list', {
     method: 'GET',
-    params
+    params: p
   });
 }
 export async function cancelShare(params) {

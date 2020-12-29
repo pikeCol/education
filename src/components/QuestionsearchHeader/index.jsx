@@ -53,6 +53,13 @@ const QuestionsearchHeader = (props) => {
 
   }
 
+  const handleCasc = (v) => {
+    setCurrent({
+      ...current,
+      subject: v
+    })
+  }
+
   const selectsRender = () => {
     return selectOptions.map((select, index) => {
       return selectRender(select, index)
@@ -63,12 +70,7 @@ const QuestionsearchHeader = (props) => {
       <Cascader
         fieldNames={{ label: 'name', value: 'id', children: 'children' }}
         options={querys}
-        onChange={(values) => {
-          setCurrent({
-            ...current,
-            subject: values
-          })
-        }} />
+        onChange={handleCasc} />
       {selectsRender(selectOptions)}
     </span>
     <span>
