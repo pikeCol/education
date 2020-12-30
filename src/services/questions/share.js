@@ -11,8 +11,9 @@ export async function getQuestionShareList(params) {
   if (params.subject) {
     p = {
       ...params,
-      subject: params.subject.join(',')
+      leafNodeIds: params.subject.pop()
     }
+    delete p.subject
   } else {
     p = params
   }
