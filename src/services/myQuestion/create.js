@@ -60,9 +60,19 @@ export async function updateQUestion(params) {
   });
 }
 export async function getMyQuestionList(params) {
+  let p = {}
+  if (params.subject) {
+    p = {
+      ...params,
+      leafNodeIds: params.subject.pop()
+    }
+    delete p.subject
+  } else {
+    p = params
+  }
   return request('/v1/topic/list', {
     method: 'GET',
-    params
+    params: p
   });
 }
 export async function deleteQuestion(params) {
