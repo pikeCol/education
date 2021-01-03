@@ -10,7 +10,7 @@ import RadioSearch from '../../../components/RadioSearch'
 const columns = [
   { dataIndex: 'paperName', title: '名称' },
   { dataIndex: 'type', title: '类型 >', render: (type) => type === '0' ? '试卷' : '练习' },
-  { dataIndex: 'topicNum', title: '题数 >', render: (n) => n.length },
+  { dataIndex: 'topicNum', title: '题数 >'},
   { dataIndex: 'difficultyLevel', title: '难度 >' },
   { dataIndex: 'treeFullNames', title: '科目/年级 >' },
   { dataIndex: 'printNum', title: '打印份数' },

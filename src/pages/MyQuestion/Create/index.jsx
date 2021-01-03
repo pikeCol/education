@@ -67,9 +67,9 @@ const formatRichQuestion = (rich) => {
     analysis: analysis && analysis.toHTML(),
     answer,
     question: question.toHTML(),
-    options: options && options.length && options.map((x, index) => {
+    options: options && options.length > 0 ? options.map((x, index) => {
       return `${[alphabet[index]]}. ${x.value.toHTML()}`
-    })
+    }) : []
   }
 }
 const MyQuestionCreate = (props) => {
@@ -90,6 +90,8 @@ const MyQuestionCreate = (props) => {
       // save
       // format rich question
       const richValues = formatRichQuestion(richQuestion)
+      console.log(formValues.subjectTreeNodeIds);
+      console.log('====================================');
       formValues.subjectTreeNodeIds = formValues.subjectTreeNodeIds.map(x => x.lastItem)
       let fn = createQuestion
       if (detail && detail.id) {

@@ -27,7 +27,7 @@ const useList = (query, page, modifyRequest) => {
   return [list, totalN]
 }
 const QuestionList = (props) => {
-  const { query = {}, detailUrl, modifyRequest, isAudit, isWrong, notAllowBtns } = props
+  const { query = {}, detailUrl, modifyRequest, isAudit, isWrong, notAllowBtns, isExamine, putOn } = props
   const [page, setPage] = useState({
     pageNum: 1,
     pageSize: 10
@@ -53,7 +53,7 @@ const QuestionList = (props) => {
       <div className={styles.list}>
         {
           list.map(record => {
-            return <QuestionCell notAllowBtns={notAllowBtns} url={detailUrl} key={record.id} data={record} isAudit={isAudit} isWrong={isWrong} onStateChange={stateChange}/>
+            return <QuestionCell putOn={putOn} isExamine={isExamine} notAllowBtns={notAllowBtns} url={detailUrl} key={record.id} data={record} isAudit={isAudit} isWrong={isWrong} onStateChange={stateChange}/>
           })
         }
       </div>

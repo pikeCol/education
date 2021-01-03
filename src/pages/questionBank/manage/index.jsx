@@ -146,6 +146,8 @@ const Bank = () => {
         ...query,
         queryType: 2
       }}
+      isExamine
+      putOn
       detailUrl="/questionBank/manage/detail/" />
   </PageHeaderWrapper>
 }

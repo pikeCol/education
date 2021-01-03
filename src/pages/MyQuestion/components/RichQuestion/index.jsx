@@ -123,7 +123,10 @@ const RichQuestion = (props) => {
     onChangeValue([...options], 'options')
   }
   const onAnswerSelect = (e) => {
-    if (type === '2') {
+    console.log('====================================');
+    console.log(e,type);
+    console.log('====================================');
+    if (type === '2' || type === '4') {
       onChangeValue(e.join(','), 'answer')
     } else {
       const { target: { value } } = e

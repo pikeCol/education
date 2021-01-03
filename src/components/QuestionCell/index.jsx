@@ -75,7 +75,7 @@ const statusRender = (status, reason) => {
   return <span style={style}>{statuData.title}</span>
 }
 const QuestionCell = (props) => {
-  const { data = {}, isAudit, isWrong, url, onStateChange, notAllowBtns = [] } = props
+  const { data = {}, isAudit, isWrong, url, onStateChange, notAllowBtns = [], isExamine, putOn } = props
   console.log('QuestionCell========', isAudit, isWrong)
   const { question,
     difficultyLevel = 0,
@@ -131,6 +131,18 @@ const QuestionCell = (props) => {
         })
       }
     }
+
+    if (t === 'up') {
+      title = '确定上架当前题目？'
+      onOk = () => {
+        return new Promise((resolve) => {
+          changeQuestionStatus({
+            status: 2,
+            id: data.id
+          }).then(resolve)
+        })
+      }
+    }
     let temp = onOk
     if (onStateChange) {
       temp = () => {
@@ -165,6 +177,11 @@ const QuestionCell = (props) => {
     const del = notAllowBtns.indexOf('del') !== -1 ? null : <Button key="del" type='link' style={{ color: 'red' }} onClick={() => {
       onBtnClick('del')
     }}>删除</Button>
+
+    const up = <Button key="up" type='link' onClick={() => {
+      onBtnClick('up')
+    }}>上架</Button>
+
     let btnList = []
     switch (status) {
       case 0:
@@ -179,6 +196,9 @@ const QuestionCell = (props) => {
         break;
       case 4:
         btnList = [edit, del]
+        if (putOn) {
+          btnList.push(up)
+        }
         break;
       default:
         break
@@ -211,7 +231,10 @@ const QuestionCell = (props) => {
         <span><BookOutlined />{referenceCount || 0}</span>
       </div>
       <div>
-        <Link type="link" to={`${url}${data.id}`}>详情</Link>
+        <Link type="link" to={{
+          pathname: `${url}${data.id}`,
+          state: { isAudit, isWrong, isExamine }
+        }}>详情</Link>
         {status !== 2 ? status !== 10 ? <Divider type="vertical" /> : null : null}
         {
           status !== 2 ? 
@@ -229,7 +252,7 @@ const QuestionCell = (props) => {
     return <div className={styles.operate} >
       <Link type="link" to={{
         pathname: `${url}${data.id}`,
-        state: { isAudit, isWrong }
+        state: { isAudit, isWrong, isExamine }
       }}>查看</Link>
     </div>
   }

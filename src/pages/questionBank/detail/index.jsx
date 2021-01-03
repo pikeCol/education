@@ -194,8 +194,8 @@ const QuestionDetail = (props) => {
   const { match = {}, location = {}} = props
   const { params } = match
   const {state = {}} = location
-  const { isAudit, isWrong } = state
-  console.log('QuestionDetail isWrong', isAudit, isWrong)
+  const { isAudit, isWrong, isExamine } = state
+  console.log('QuestionDetail isWrong', isAudit, isWrong, isExamine)
   const detail = useDetail(params)
   const [showModal, setShowModal] = useState(false)
   const backList = () => {
@@ -356,6 +356,7 @@ const QuestionDetail = (props) => {
     10不是错题
     11是错题
     12撤回 */}
+    console.log(detail.status, isAudit, isWrong)
     let btnList = []
     switch (detail.status) {
       case 0:
@@ -364,13 +365,14 @@ const QuestionDetail = (props) => {
         break;
       case 1:
         btnList = isAudit ? [isErr, noErr] : [rev]
-        if (!isWrong) btnList = [audit, reject]
+        if (isExamine) btnList = [audit, reject]
         break;
       case 2:
         // btnList = [edit, del]
         break;
       case 4:
         btnList = [edit, del]
+        if (isExamine) btnList.push(audit)
         break;
       case 10:
       case 11:

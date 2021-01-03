@@ -108,6 +108,8 @@ const MyQuestion = (props) => {
             queryType: 1,
           }}
           isAudit={true}
+          // 审核通过发布的权限
+          isExamine={false}
           // edit
           // sub
           // rev
