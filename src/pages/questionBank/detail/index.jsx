@@ -356,7 +356,7 @@ const QuestionDetail = (props) => {
     10不是错题
     11是错题
     12撤回 */}
-    console.log(detail.status, isAudit, isWrong)
+    console.log(detail.status, isAudit, isWrong, isExamine)
     let btnList = []
     switch (detail.status) {
       case 0:

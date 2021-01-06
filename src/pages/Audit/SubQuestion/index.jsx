@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import QuestionList from '@/components/QuestionList'
 import QuestionsearchHeader from '@/components/QuestionsearchHeader'
 import { getTags, getMyQuestionList } from '@/services/myQuestion/create'
-import { getWrongQuestionList } from '@/services/audit'
+import { getAuditList } from '@/services/audit'
 import RadioSearch from '@/components/RadioSearch'
 import styles from './index.less'
 
@@ -124,10 +124,11 @@ const WrongQuestion = (props) => {
           onSearch={onSearch} />
       </div>
       <QuestionList
-        modifyRequest={getWrongQuestionList}
+        modifyRequest={getAuditList}
         className={styles.questionTable}
         isAudit
         isWrong={false}
+        isExamine
         query={{
           ...query
         }}

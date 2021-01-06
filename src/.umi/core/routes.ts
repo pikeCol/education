@@ -106,6 +106,12 @@ export function getRoutes() {
                 "exact": true
               },
               {
+                "hideInMenu": true,
+                "path": "/questionBank/share/detail/:id",
+                "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__questionBank__share__detail' */'/Users/pikeman/Downloads/github/education/src/pages/questionBank/share/detail'), loading: LoadingComponent}),
+                "exact": true
+              },
+              {
                 "path": "/questionBank/manage",
                 "name": "manage",
                 "icon": "diff",

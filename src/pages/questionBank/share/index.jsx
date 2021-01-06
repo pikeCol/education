@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Table, Button, Modal } from 'antd'
+import { Link } from 'react-router-dom'
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { getQuestionShareList, cancelShare, deleteSharePaper } from '@/services/questions/share'
 import styles from './index.less'
@@ -14,7 +15,8 @@ const columns = [
   { dataIndex: 'difficultyLevel', title: '难度 >' },
   { dataIndex: 'treeFullNames', title: '科目/年级 >' },
   { dataIndex: 'printNum', title: '打印份数' },
-  { dataIndex: 'status', title: '状态', render: (status) => status === '0' ? '共享' : '不共享' }
+  { dataIndex: 'status', title: '状态', render: (status) => status === '0' ? '共享' : '不共享' },
+  { dataIndex: 'id', title: '操作', render: (id) => <Link to={`/questionBank/share/detail/${id}`}>查看</Link> }
 ]
 const selectOptions = [{
   defaultValue: '0',
@@ -94,7 +96,7 @@ const useList = (query, page) => {
   return [list, total]
 }
 const QuestionShare = () => {
-  const [query, setQuery] = useState({ status: '0' })
+  const [query, setQuery] = useState({ status: '6' })
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [page, setPage] = useState({
     pageNum: 1,
@@ -119,8 +121,8 @@ const QuestionShare = () => {
       pageSize
     })
   }
-  const onBtnClick = () => {
-    if (query.status === '0') {
+  const onBtnClick = (s) => {
+    if (query.status === '6') {
       Modal.confirm({
         centered: true,
         okText: '确定',
@@ -132,6 +134,24 @@ const QuestionShare = () => {
             return cancelShare({
               id,
               status: 6
+            })
+          })).then(() => {
+            pageChange(1, 10)
+          })
+        }
+      })
+    } else if (s) {
+      Modal.confirm({
+        centered: true,
+        okText: '确定',
+        cancelText: '取消',
+        title: '系统提示',
+        content: '确定分享？',
+        onOk() {
+          Promise.all(selectedRowKeys.map(id => {
+            return cancelShare({
+              id,
+              status: 5
             })
           })).then(() => {
             pageChange(1, 10)
@@ -184,7 +204,13 @@ const QuestionShare = () => {
       <span>
         <Button
           disabled={!selectedRowKeys.length}
-          onClick={onBtnClick}>{query.status === '0' ? '取消共享' : '删除'}</Button>
+          onClick={onBtnClick}>{query.status === '6' ? '取消共享' : '删除'}</Button>
+          {
+            query.status === '5' ? <Button
+            disabled={!selectedRowKeys.length}
+            onClick={() => onBtnClick(5)}>共享</Button>
+            : ''
+          }
         {selectedRowKeys.length ? <span>{`已选中${selectedRowKeys.length * 1}项`}</span> : null}
       </span>
     </span>

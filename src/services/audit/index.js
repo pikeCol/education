@@ -21,3 +21,19 @@ export async function getWrongQuestionList(params) {
     params: p
   });
 }
+
+export async function getAuditList(params) {
+  let p = {}
+  if (params.subject) {
+    p = {
+      ...params,
+      subject: params.subject.join(',')
+    }
+  } else {
+    p = params
+  }
+  return request('/v1/audit/list', {
+    method: 'GET',
+    params: p
+  });
+}

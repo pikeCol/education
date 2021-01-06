@@ -96,6 +96,10 @@ const SubjectManage = () => {
   };
 
   const handleDelete = () => {
+    if (selectedInfo.node.pos.split('-').length >= 6) {
+      message.error('第五层级不能删除')
+      return
+    }
     deleteQuestionSubject({
       id: selectedInfo.node.id
     }).then(() =>{

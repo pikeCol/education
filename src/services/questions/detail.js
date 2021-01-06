@@ -6,3 +6,11 @@ export async function getQuestionDetail(params) {
     method: 'GET',
   });
 }
+
+
+export async function getShareDetail(params) {
+  const { id } = params
+  return request(`/v1/paper/${id}`, {
+    method: 'GET',
+  });
+}

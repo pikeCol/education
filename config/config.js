@@ -109,6 +109,11 @@ export default defineConfig({
             authority: ['admin'],
           },
           {
+            hideInMenu: true,
+            path: '/questionBank/share/detail/:id',
+            component: './questionBank/share/detail',
+          },
+          {
             path: '/questionBank/manage',
             name: 'manage',
             icon: 'diff',
