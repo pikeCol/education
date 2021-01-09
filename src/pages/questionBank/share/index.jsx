@@ -15,7 +15,7 @@ const columns = [
   { dataIndex: 'difficultyLevel', title: '难度 >' },
   { dataIndex: 'treeFullNames', title: '科目/年级 >' },
   { dataIndex: 'printNum', title: '打印份数' },
-  { dataIndex: 'status', title: '状态', render: (status) => status === 6 ? '共享' : '不共享' }
+  { dataIndex: 'status', title: '状态', render: (status) => status === 6 ? '共享' : '不共享' },
   { dataIndex: 'id', title: '操作', render: (id) => <Link to={`/questionBank/share/detail/${id}`}>查看</Link> }
 ]
 const selectOptions = [{
