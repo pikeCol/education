@@ -10,16 +10,16 @@ import styles from './index.less'
 
 const selectOptions = [
   {
-    defaultValue: '0',
+    defaultValue: null,
     placeHolder: '请选择题型',
     queryKey: 'type',
     options: [
       {
         label: '全部题型',
-        value: '0'
+        value: null
       },
       {
-        label: '选择题',
+        label: '单选题',
         value: '1'
       },
       {
@@ -41,13 +41,13 @@ const selectOptions = [
     ]
   },
   {
-    defaultValue: '0',
+    defaultValue: null,
     placeHolder: '请选择难度',
-    queryKey: 'difficultLevels',
+    queryKey: 'difficultyLevels',
     options: [
       {
         label: '全部难度',
-        value: '0'
+        value: null
       },
       {
         label: '一星',
@@ -72,14 +72,14 @@ const selectOptions = [
     ]
   },
   {
-    defaultValue: '0',
-    placeHolder: '请选择难度',
+    defaultValue: null,
+    placeHolder: '请选择标签',
     queryKey: 'tagIds',
     options: new Promise((resolve) => {
       getTags().then(res => resolve([
         {
           label: '全部标签',
-          value: '0'
+          value: null
         },
         ...res.data?.map(x => {
           return { label: x.value, value: `${x.id}` }
