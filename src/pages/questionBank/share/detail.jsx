@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { getShareDetail } from '@/services/questions/detail';
 import { Table, Button, Row, Col } from 'antd'
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import styles from './detail.less'
+import './detail.less'
 import { QuestionTypesDetail } from '@/components/Enums';
 import { history } from 'umi';
 import html2canvas from 'html2canvas'
@@ -46,35 +46,35 @@ const QuestionDeailHeader = (props) => {
     }
   }
   const normalRender = () => {
-    return <Row className={styles.row}>
+    return <Row className='row'>
       <Col span={12}>
-        <span className={styles.title}>状态：</span>
+        <span className='title'>状态：</span>
         <span>{statusRender()}</span>
       </Col>
       <Col span={12}>
-        <span className={styles.title}>发布时间：</span>
+        <span className='title'>发布时间：</span>
         <span>{submitTime}</span>
       </Col>
     </Row>
   }
   return <div className={className}>
-    <Row className={styles.row}>
+    <Row className='row'>
       <Col span={12}>
-        <span className={styles.title}>科目课程：</span>
+        <span className='title'>科目课程：</span>
         <span>{treeFullNames}</span>
       </Col>
       <Col span={12}>
-        <span className={styles.title}>题型：</span>
+        <span className='title'>题型：</span>
         <span>{QuestionTypesDetail[type]?.title || ''}</span>
       </Col>
     </Row>
-    <Row className={styles.row}>
+    <Row className='row'>
       <Col span={12}>
-        <span className={styles.title}>题目标签：</span>
+        <span className='title'>题目标签：</span>
         <span>{tags?.map(x => { return x.value })}</span>
       </Col>
       <Col span={12}>
-        <span className={styles.title}>难度：</span>
+        <span className='title'>难度：</span>
         <span>{starRender()}</span>
       </Col>
     </Row>
@@ -120,9 +120,9 @@ const QuestionDeatailContent = (props) => {
   const ct =  data.contents.map((v, index) => {
     const { question, options = [], answer, analysis } = v
       return <div key={v.id}>
-          <div className={styles.question}>
-            <div className={styles.desc} dangerouslySetInnerHTML={{ '__html': `${question}` || '' }} />
-            <div className={styles.select}>
+          <div className='question'>
+            <div className='desc' dangerouslySetInnerHTML={{ '__html': `${question}` || '' }} />
+            <div className='select'>
               {options?.map(x => <span key={x} dangerouslySetInnerHTML={{ '__html': x || '' }} />)}
             </div>
           </div>
@@ -138,11 +138,91 @@ const QuestionDeatailContent = (props) => {
 }
 
 
+
+
 const ShareDetail = (props) => {
   const { match = {}, location = {}} = props
   const { params } = match
   const detail = useDetail(params)
 
+  const pageStyle = `
+
+  @media all {
+    .pagebreak {
+      display: none;
+    }
+    
+.header {
+  margin: 15px;
+  border-bottom: solid 1px #dddddd;
+}
+.header .row {
+  padding: 10px 0;
+}
+.header .row .title {
+  color: rgba(0, 0, 0, 0.85);
+}
+.content {
+  padding: 0 15px;
+}
+.content .line {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+.content .question .desc,
+.content .answer .desc {
+  font-size: 16px;
+  color: #333333;
+}
+.content .question .select,
+.content .answer .select {
+  display: flex;
+  font-size: 13px;
+  color: #333333;
+}
+.content .question .select span,
+.content .answer .select span {
+  flex: 20%;
+}
+.content .question .picture,
+.content .answer .picture {
+  display: flex;
+  justify-content: start;
+}
+.content .question .picture img,
+.content .answer .picture img {
+  width: 100px;
+  height: 100px;
+  padding: 0 5px;
+}
+.content .question .title,
+.content .answer .title {
+  font-size: 18px;
+  color: #DDDDDD;
+}
+.tool {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+  position: absolute;
+  bottom: 0;
+  background: white;
+  border: 1px solid #DDDDDD;
+}
+.tool .btns button {
+  margin-left: 8px;
+}
+
+  }
+
+  @media print {
+    .pagebreak {
+      page-break-before: always;
+    }
+  }
+`;
   const onBtnClick = () => {
     var iframe=document.getElementById("print-iframe");
     if(!iframe){  
@@ -155,7 +235,7 @@ const ShareDetail = (props) => {
             doc = iframe.contentWindow.document;
             //这里可以自定义样式
           
-            //doc.write("<LINK rel="stylesheet" type="text/css" href="css/print.css">");
+            doc.write(`<style  type="text/css">${pageStyle}</style>`);
             doc.write('<div>' + el.innerHTML + '</div>');
             doc.close();
             iframe.contentWindow.focus();            
@@ -171,21 +251,21 @@ const ShareDetail = (props) => {
   }
 
   return <PageHeaderWrapper>
-  <div className={styles.detail}>
-      <QuestionDeailHeader className={styles.header} data={detail} />
+  <div className='detail'>
+      <QuestionDeailHeader className='header' data={detail} />
       <div id="content">
       {
         detail.content && Object.keys(detail.content).map((v, index) => {
-          return <QuestionDeatailContent key={index} className={styles.content} data={detail.content[v]} title={v}/>
+          return <QuestionDeatailContent key={index} className='content' data={detail.content[v]} title={v}/>
         })
       }
       </div>
-      <div className={styles.tool}>
+      <div className='tool'>
         <div>
           <Button onClick={backList}>返回列表</Button>
         </div>
 
-        <div className={styles.btns}>
+        <div className='btns'>
           <Button onClick={() => {
             onBtnClick()
           }}>打印</Button>
