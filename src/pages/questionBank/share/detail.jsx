@@ -4,6 +4,9 @@ import { Table, Button, Row, Col } from 'antd'
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import styles from './detail.less'
 import { QuestionTypesDetail } from '@/components/Enums';
+import { history } from 'umi';
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf'
 
 const QuestionDeailHeader = (props) => {
 
@@ -114,11 +117,11 @@ const useDetail = (params) => {
 const QuestionDeatailContent = (props) => {
   const { className, data = {}, title } = props
 
-  const ct =  data.contents.map(v => {
+  const ct =  data.contents.map((v, index) => {
     const { question, options = [], answer, analysis } = v
       return <div key={v.id}>
           <div className={styles.question}>
-            <div className={styles.desc} dangerouslySetInnerHTML={{ '__html': question || '' }} />
+            <div className={styles.desc} dangerouslySetInnerHTML={{ '__html': `${question}` || '' }} />
             <div className={styles.select}>
               {options?.map(x => <span key={x} dangerouslySetInnerHTML={{ '__html': x || '' }} />)}
             </div>
@@ -140,16 +143,43 @@ const ShareDetail = (props) => {
   const { params } = match
   const detail = useDetail(params)
 
-  const onBtnClick = () => {}
+  const onBtnClick = () => {
+    var iframe=document.getElementById("print-iframe");
+    if(!iframe){  
+            var el = document.getElementById("content");
+            iframe = document.createElement('IFRAME');
+            var doc = null;
+            iframe.setAttribute("id", "print-iframe");
+            iframe.setAttribute('style', 'position:absolute;width:0px;height:0px;left:-500px;top:-500px;');
+            document.body.appendChild(iframe);
+            doc = iframe.contentWindow.document;
+            //这里可以自定义样式
+          
+            //doc.write("<LINK rel="stylesheet" type="text/css" href="css/print.css">");
+            doc.write('<div>' + el.innerHTML + '</div>');
+            doc.close();
+            iframe.contentWindow.focus();            
+    }
+    iframe.contentWindow.print();
+    if (navigator.userAgent.indexOf("MSIE") > 0){
+        document.body.removeChild(iframe);
+    }
+  }
+  const backList = () => {
+    history.goBack()
+
+  }
 
   return <PageHeaderWrapper>
   <div className={styles.detail}>
       <QuestionDeailHeader className={styles.header} data={detail} />
+      <div id="content">
       {
         detail.content && Object.keys(detail.content).map((v, index) => {
           return <QuestionDeatailContent key={index} className={styles.content} data={detail.content[v]} title={v}/>
         })
       }
+      </div>
       <div className={styles.tool}>
         <div>
           <Button onClick={backList}>返回列表</Button>
