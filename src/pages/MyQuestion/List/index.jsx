@@ -11,16 +11,16 @@ import styles from './index.less'
 const MyQuestion = (props) => {
   const selectOptions = [
     {
-      defaultValue: '0',
+      defaultValue: null,
       placeHolder: '请选择题型',
       queryKey: 'type',
       options: [
         {
           label: '全部题型',
-          value: '0'
+          value: null
         },
         {
-          label: '选择题',
+          label: '单选题',
           value: '1'
         },
         {
@@ -42,13 +42,13 @@ const MyQuestion = (props) => {
       ]
     },
     {
-      defaultValue: '0',
+      defaultValue: null,
       placeHolder: '请选择难度',
-      queryKey: 'difficultLevels',
+      queryKey: 'difficultyLevels',
       options: [
         {
           label: '全部难度',
-          value: '0'
+          value: null
         },
         {
           label: '一星',
@@ -73,14 +73,14 @@ const MyQuestion = (props) => {
       ]
     },
     {
-      defaultValue: '0',
-      placeHolder: '请选择难度',
+      defaultValue: null,
+      placeHolder: '请选择',
       queryKey: 'tagIds',
       options: new Promise((resolve) => {
         getTags().then(res => resolve([
           {
             label: '全部标签',
-            value: '0'
+            value: null
           },
           ...res.data.map(x => {
             return { label: x.value, value: `${x.id}` }
@@ -94,27 +94,27 @@ const MyQuestion = (props) => {
     <div className={styles.content}>
       <div className={styles.head}>
         <QuestionsearchHeader
-          selectOptions={selectOptions}
-          onQuery={(querys) => {
-            setQuery(querys)
-          }} />
+            selectOptions={selectOptions}
+            onQuery={(querys) => {
+              setQuery(querys)
+            }} />
         <Button type='primary' className={styles.btns}>
           <Link to="/questionBank/personalQuestion/create">新建</Link>
         </Button>
       </div>
-        <QuestionList className={styles.questionTable}
-          query={{
-            ...query,
-            queryType: 1
-          }}
+      <QuestionList className={styles.questionTable}
+                    query={{
+                      ...query,
+                      queryType: 1
+                    }}
           // edit
           // sub
           // rev
           // del
           // verb
-          notAllowBtns={['verb', 'rev']}
-          detailUrl="/questionBank/personalQuestion/detail/"
-        />
+                    notAllowBtns={['verb', 'rev']}
+                    detailUrl="/questionBank/personalQuestion/detail/"
+      />
 
     </div>
 
