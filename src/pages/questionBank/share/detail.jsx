@@ -201,19 +201,6 @@ const ShareDetail = (props) => {
   font-size: 18px;
   color: #DDDDDD;
 }
-.tool {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 15px;
-  position: absolute;
-  bottom: 0;
-  background: white;
-  border: 1px solid #DDDDDD;
-}
-.tool .btns button {
-  margin-left: 8px;
-}
 
   }
 
