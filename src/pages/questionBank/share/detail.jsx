@@ -1,12 +1,77 @@
 import React, { useState, useEffect } from 'react'
 import { getShareDetail } from '@/services/questions/detail';
-import { Table, Button, Row, Col } from 'antd'
+import { Table, Button, Row, Col, Modal, Pagination } from 'antd'
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import './detail.less'
 import { QuestionTypesDetail } from '@/components/Enums';
 import { history } from 'umi';
-import html2canvas from 'html2canvas'
-import jsPDF from 'jspdf'
+import { getMyQuestionList } from '@/services/myQuestion/create'
+
+const pageStyle = `
+
+@media all {
+  .pagebreak {
+    display: none;
+  }
+      
+  .header {
+    margin: 15px;
+    border-bottom: solid 1px #dddddd;
+  }
+  .header .row {
+    padding: 10px 0;
+  }
+  .header .row .title {
+    color: rgba(0, 0, 0, 0.85);
+  }
+  .content {
+    padding: 0 15px;
+  }
+  .content .line {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+  }
+  .content .question .desc,
+  .content .answer .desc {
+    font-size: 16px;
+    color: #333333;
+  }
+  .content .question .select,
+  .content .answer .select {
+    display: flex;
+    font-size: 13px;
+    color: #333333;
+  }
+  .content .question .select span,
+  .content .answer .select span {
+    flex: 20%;
+  }
+  .content .question .picture,
+  .content .answer .picture {
+    display: flex;
+    justify-content: start;
+  }
+  .content .question .picture img,
+  .content .answer .picture img {
+    width: 100px;
+    height: 100px;
+    padding: 0 5px;
+  }
+  .content .question .title,
+  .content .answer .title {
+    font-size: 18px;
+    color: #DDDDDD;
+  }
+
+}
+
+@media print {
+  .pagebreak {
+    page-break-before: always;
+  }
+}
+`;
 
 const QuestionDeailHeader = (props) => {
 
@@ -144,72 +209,34 @@ const ShareDetail = (props) => {
   const { match = {}, location = {}} = props
   const { params } = match
   const detail = useDetail(params)
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [total, setTotal] = useState(0);
+  const [list, setList] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [page, setPage] = useState({
+    pageNum: 1,
+    pageSize: 10
+  })
 
-  const pageStyle = `
-
-  @media all {
-    .pagebreak {
-      display: none;
-    }
-    
-.header {
-  margin: 15px;
-  border-bottom: solid 1px #dddddd;
-}
-.header .row {
-  padding: 10px 0;
-}
-.header .row .title {
-  color: rgba(0, 0, 0, 0.85);
-}
-.content {
-  padding: 0 15px;
-}
-.content .line {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-}
-.content .question .desc,
-.content .answer .desc {
-  font-size: 16px;
-  color: #333333;
-}
-.content .question .select,
-.content .answer .select {
-  display: flex;
-  font-size: 13px;
-  color: #333333;
-}
-.content .question .select span,
-.content .answer .select span {
-  flex: 20%;
-}
-.content .question .picture,
-.content .answer .picture {
-  display: flex;
-  justify-content: start;
-}
-.content .question .picture img,
-.content .answer .picture img {
-  width: 100px;
-  height: 100px;
-  padding: 0 5px;
-}
-.content .question .title,
-.content .answer .title {
-  font-size: 18px;
-  color: #DDDDDD;
-}
-
+  const onPageChange = ({pageSize,pageNum }) => {
+    setPage({
+      pageNum: pageNum + 1,
+      pageSize: pageSize
+    })
+    getMyQuestionList({
+      queryType: 1,
+      pageSize,
+      pageNum: pageNum + 1
+    }).then(res => {
+      if (res.code < 300) {
+        const { data: { records = [], total = 0 } } = res
+        setList(records)
+        setTotal(total)
+      }
+    })
   }
 
-  @media print {
-    .pagebreak {
-      page-break-before: always;
-    }
-  }
-`;
+
   const onBtnClick = () => {
     var iframe=document.getElementById("print-iframe");
     if(!iframe){  
@@ -232,10 +259,69 @@ const ShareDetail = (props) => {
         document.body.removeChild(iframe);
     }
   }
+
+  const columns = [
+    {
+      title: '题目类型',
+      dataIndex: 'type',
+      render: (text) => <span >{text ? QuestionTypesDetail[text].title : null} </span>,
+    },
+    {
+      title: '题目',
+      dataIndex: 'question',
+      render: (text) => <div dangerouslySetInnerHTML={{ '__html': text || '' }} />,
+    },
+    {
+      title: '标签',
+      dataIndex: 'tags',
+      render: (tags) => {
+        if (tags ) {
+          return tags.map(tag => <span key={tag.id}>{tag.value}</span>)
+        }
+      },
+    },
+    {
+      title: '难度',
+      dataIndex: 'difficultyLevel',
+    },
+  ];
+
+
+  const addClick = () => {
+    getMyQuestionList({
+      queryType: 1,
+      pageSize: page.pageSize,
+      pageNum: page.pageNum
+    }).then(res => {
+      if (res.code < 300) {
+        const { data: { records = [], total = 0 } } = res
+        setList(records)
+        setTotal(total)
+      }
+    })
+    setIsModalVisible(true);
+  }
   const backList = () => {
     history.goBack()
-
   }
+
+  const handleOk = () => {
+    if (selectedRows.length > 0) {
+      
+    }
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      setSelectedRows(selectedRows)
+    },
+  };
+
 
   return <PageHeaderWrapper>
   <div className='detail'>
@@ -256,8 +342,31 @@ const ShareDetail = (props) => {
           <Button onClick={() => {
             onBtnClick()
           }}>打印</Button>
+          <Button onClick={() => {
+            addClick()
+          }}>添加</Button>
         </div>
       </div>
+      <Modal title="Basic Modal" width={800} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <Table
+          rowSelection={{
+            type: 'radio',
+            ...rowSelection,
+          }}
+          rowKey={record => record.id}
+          bordered
+          pagination={{...page, total}}
+          onChange={onPageChange}
+          columns={columns}
+          dataSource={list}
+        />
+        {/* <Pagination
+          total={total}
+          defaultCurrent={1}
+          className='pagination'
+          onShowSizeChange={onPageChange}
+          onChange={onPageChange}/> */}
+      </Modal>
       {/* <QuestionDeatailContent className={styles.content} data={detail} /> */}
   </div>  
   </PageHeaderWrapper>
