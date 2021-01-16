@@ -81,3 +81,17 @@ export async function deleteQuestion(params) {
     method: 'DELETE'
   });
 }
+
+export async function addTopic(params) {
+  return request(`/v1/paper/addTopic`, {
+    method: 'post',
+    data: params,
+  });
+}
+
+export async function deleteTopic(params) {
+  return request(`/v1/paper/deleteTopic`, {
+    method: 'DELETE',
+    params,
+  });
+}

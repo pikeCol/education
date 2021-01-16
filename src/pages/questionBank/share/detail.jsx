@@ -5,7 +5,7 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import './detail.less'
 import { QuestionTypesDetail } from '@/components/Enums';
 import { history } from 'umi';
-import { getMyQuestionList } from '@/services/myQuestion/create'
+import { getMyQuestionList, addTopic, deleteTopic } from '@/services/myQuestion/create'
 
 const pageStyle = `
 
@@ -62,6 +62,9 @@ const pageStyle = `
   .content .answer .title {
     font-size: 18px;
     color: #DDDDDD;
+  }
+  .delete {
+    display: none;
   }
 
 }
@@ -180,17 +183,27 @@ const useDetail = (params) => {
 }
 
 const QuestionDeatailContent = (props) => {
-  const { className, data = {}, title } = props
+  const { className, data = {}, title, paperId } = props
+
+  const deletClick = (v) => {
+    deleteTopic({
+      paperId,
+      topicIds: [v.id]
+    })
+  }
 
   const ct =  data.contents.map((v, index) => {
     const { question, options = [], answer, analysis } = v
-      return <div key={v.id}>
+      return <div key={v.id} className="question-part">
           <div className='question'>
             <div className='desc' dangerouslySetInnerHTML={{ '__html': `${question}` || '' }} />
             <div className='select'>
               {options?.map(x => <span key={x} dangerouslySetInnerHTML={{ '__html': x || '' }} />)}
             </div>
           </div>
+          <Button danger className="delete" onClick={() => {
+            deletClick(v)
+          }}>删除</Button>
         </div>
     });
   
@@ -198,7 +211,6 @@ const QuestionDeatailContent = (props) => {
     <h3>{title}</h3>
     {ct}
   </div>
-  
 
 }
 
@@ -297,6 +309,7 @@ const ShareDetail = (props) => {
         const { data: { records = [], total = 0 } } = res
         setList(records)
         setTotal(total)
+        useDetail(params)
       }
     })
     setIsModalVisible(true);
@@ -306,8 +319,11 @@ const ShareDetail = (props) => {
   }
 
   const handleOk = () => {
+    console.log(selectedRows);
     if (selectedRows.length > 0) {
-      
+      addTopic({
+        paperId: selectedRows[0].id,
+      })
     }
     setIsModalVisible(false);
   };
@@ -329,7 +345,7 @@ const ShareDetail = (props) => {
       <div id="content">
       {
         detail.content && Object.keys(detail.content).map((v, index) => {
-          return <QuestionDeatailContent key={index} className='content' data={detail.content[v]} title={v}/>
+          return <QuestionDeatailContent key={index} className='content' paperId={detail.id} data={detail.content[v]} title={v}/>
         })
       }
       </div>
