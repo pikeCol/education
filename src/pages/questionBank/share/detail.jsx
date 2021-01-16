@@ -6,7 +6,9 @@ import './detail.less'
 import { QuestionTypesDetail } from '@/components/Enums';
 import { history } from 'umi';
 import { getMyQuestionList, addTopic, deleteTopic } from '@/services/myQuestion/create'
-
+import QuestionsearchHeader from '@/components/QuestionsearchHeader'
+import { getTags } from '@/services/myQuestion/create'
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 const pageStyle = `
 
 @media all {
@@ -164,32 +166,31 @@ const contentEnum = {
   '解答题': "5",
 }
 
-const useDetail = (params) => {
-  const [detail, setDetail] = useState({})
-  useEffect(() => {
-    getShareDetail(params).then(res => {
-      if (res.code < 300) {
-        const content = Object.keys(res.data.content).map(x => {
-          return {
-            name: x,
-            ...res.data.content[x]
-          }
-        })
-        setDetail(res.data)
-      }
-    })
-  }, [])
-  return detail
-}
 
 const QuestionDeatailContent = (props) => {
-  const { className, data = {}, title, paperId } = props
+  const { className, data = {}, title, paperId, refresh } = props
 
   const deletClick = (v) => {
-    deleteTopic({
-      paperId,
-      topicIds: [v.id]
-    })
+    const { confirm } = Modal;
+    confirm({
+      title: '提示',
+      icon: <ExclamationCircleOutlined />,
+      content: '确定删除么？',
+      onOk() {
+        deleteTopic({
+          paperId,
+          topicIds: [v.id]
+        }).then(res => {
+          if (res.code < 300) {
+            refresh()
+          }
+        })
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+
   }
 
   const ct =  data.contents.map((v, index) => {
@@ -220,7 +221,7 @@ const QuestionDeatailContent = (props) => {
 const ShareDetail = (props) => {
   const { match = {}, location = {}} = props
   const { params } = match
-  const detail = useDetail(params)
+  const [detail, setDetail] = useState({})
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [total, setTotal] = useState(0);
   const [list, setList] = useState([]);
@@ -229,6 +230,41 @@ const ShareDetail = (props) => {
     pageNum: 1,
     pageSize: 10
   })
+
+
+const useDetail = (params) => {
+  getShareDetail(params).then(res => {
+    if (res.code < 300) {
+      const content = Object.keys(res.data.content).map(x => {
+        return {
+          name: x,
+          ...res.data.content[x]
+        }
+      })
+      setDetail(res.data)
+    }
+  })
+}
+
+
+useEffect(() =>{
+  useDetail(params)
+},[])
+
+const fetchList = ({pageSize = 10, pageNum = 1, ...query}) => {
+    getMyQuestionList({
+      ...query,
+      pageSize,
+      pageNum
+    }).then(res => {
+      if (res.code < 300) {
+        const { data: { records = [], total = 0 } } = res
+        setList(records)
+        setTotal(total)
+      }
+    })
+  }
+
 
   const onPageChange = ({pageSize,pageNum }) => {
     setPage({
@@ -247,6 +283,7 @@ const ShareDetail = (props) => {
       }
     })
   }
+
 
 
   const onBtnClick = () => {
@@ -319,10 +356,14 @@ const ShareDetail = (props) => {
   }
 
   const handleOk = () => {
-    console.log(selectedRows);
     if (selectedRows.length > 0) {
       addTopic({
-        paperId: selectedRows[0].id,
+        topicIds: [selectedRows[0].id],
+        paperId: params.id,
+      }).then((res) => {
+        if (res.code < 300) {
+          useDetail(params)
+        }
       })
     }
     setIsModalVisible(false);
@@ -338,6 +379,88 @@ const ShareDetail = (props) => {
     },
   };
 
+  const selectOptions = [
+    {
+      defaultValue: null,
+      placeHolder: '请选择题型',
+      queryKey: 'type',
+      options: [
+        {
+          label: '全部题型',
+          value: null
+        },
+        {
+          label: '单选题',
+          value: '1'
+        },
+        {
+          label: '多选题',
+          value: '2'
+        },
+        {
+          label: '填空题',
+          value: '3'
+        },
+        {
+          label: '判断题',
+          value: '4'
+        },
+        {
+          label: '解答题',
+          value: '5'
+        }
+      ]
+    },
+    {
+      defaultValue: null,
+      placeHolder: '请选择难度',
+      queryKey: 'difficultyLevels',
+      options: [
+        {
+          label: '全部难度',
+          value: null
+        },
+        {
+          label: '一星',
+          value: '1'
+        },
+        {
+          label: '二星',
+          value: '2'
+        },
+        {
+          label: '三星',
+          value: '3'
+        },
+        {
+          label: '四星',
+          value: '4'
+        },
+        {
+          label: '五星',
+          value: '5'
+        }
+      ]
+    },
+    {
+      defaultValue: null,
+      placeHolder: '请选择',
+      queryKey: 'tagIds',
+      options: new Promise((resolve) => {
+        getTags().then(res => resolve([
+          {
+            label: '全部标签',
+            value: null
+          },
+          ...res.data.map(x => {
+            return { label: x.value, value: `${x.id}` }
+          })
+        ]))
+      })
+    }
+  ]
+  const [query, setQuery] = useState({})
+
 
   return <PageHeaderWrapper>
   <div className='detail'>
@@ -345,7 +468,7 @@ const ShareDetail = (props) => {
       <div id="content">
       {
         detail.content && Object.keys(detail.content).map((v, index) => {
-          return <QuestionDeatailContent key={index} className='content' paperId={detail.id} data={detail.content[v]} title={v}/>
+          return <QuestionDeatailContent refresh={() => useDetail(params)} key={index} className='content' paperId={params.id} data={detail.content[v]} title={v}/>
         })
       }
       </div>
@@ -363,7 +486,13 @@ const ShareDetail = (props) => {
           }}>添加</Button>
         </div>
       </div>
-      <Modal title="Basic Modal" width={800} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title="请选择题目" width={800} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <QuestionsearchHeader
+          className="question-head"
+          selectOptions={selectOptions}
+          onQuery={(querys) => {
+            fetchList(querys)
+          }} />
         <Table
           rowSelection={{
             type: 'radio',
@@ -372,7 +501,6 @@ const ShareDetail = (props) => {
           rowKey={record => record.id}
           bordered
           pagination={{...page, total}}
-          onChange={onPageChange}
           columns={columns}
           dataSource={list}
         />

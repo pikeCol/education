@@ -200,7 +200,6 @@ const QuestionDetail = (props) => {
   const [showModal, setShowModal] = useState(false)
   const backList = () => {
     history.goBack()
-
   }
   const onBtnClick = (t) => {
     let title = ''
@@ -364,8 +363,14 @@ const QuestionDetail = (props) => {
         if (!isAudit) (btnList = [edit, sub, del])
         break;
       case 1:
-        btnList = isAudit ? [isErr, noErr] : [rev]
-        if (isExamine) btnList = [audit, reject]
+        {/* btnList = isAudit ? [isErr, noErr] : [rev] */}
+        if (isWrong) {
+          btnList = [isErr, noErr]
+        } else if (isExamine) {
+          btnList = [audit, reject]
+        } else if (isAudit) {
+          btnList.push(rev)
+        }
         break;
       case 2:
         // btnList = [edit, del]

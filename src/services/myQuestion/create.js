@@ -92,6 +92,6 @@ export async function addTopic(params) {
 export async function deleteTopic(params) {
   return request(`/v1/paper/deleteTopic`, {
     method: 'DELETE',
-    params,
+    data: params,
   });
 }

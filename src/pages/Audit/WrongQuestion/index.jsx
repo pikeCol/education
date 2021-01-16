@@ -142,7 +142,6 @@ const WrongQuestion = (props) => {
       <QuestionList
         modifyRequest={getWrongQuestionList}
         className={styles.questionTable}
-        isAudit
         isWrong
         query={{
           ...query

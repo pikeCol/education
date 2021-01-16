@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Cascader, Select, Button, Spin } from 'antd';
 import { getQuestionSubject } from '@/services/myQuestion/create';
-import styles from './index.less'
+import './index.less'
 
 const { Option } = Select
 
@@ -41,7 +41,7 @@ const QuestionsearchHeader = (props) => {
     const { queryKey, defaultValue, options } = select
     return <span key={key} >
       <Select
-        className={styles.select}
+        className='select'
         value={current[queryKey] || defaultValue}
         onChange={(value) => {
           setCurrent({
@@ -65,7 +65,7 @@ const QuestionsearchHeader = (props) => {
       return selectRender(select, index)
     })
   }
-  return <div className={styles.header}>
+  return <div className='ques-header'>
     <span>
       <Cascader
         fieldNames={{ label: 'name', value: 'id', children: 'children' }}
@@ -75,13 +75,13 @@ const QuestionsearchHeader = (props) => {
     </span>
     <span>
       <Button
-        className={styles.button}
+        className='button'
         type="primary"
         onClick={() => {
           onQuery(current)
         }}>筛选</Button>
       <Button
-        className={styles.button}
+        className='button'
         onClick={() => {
           setCurrent({})
           onQuery({})
