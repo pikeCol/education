@@ -4,8 +4,9 @@ import { Button } from 'antd'
 import { Link } from 'react-router-dom'
 import QuestionList from '@/components/QuestionList'
 import QuestionsearchHeader from '@/components/QuestionsearchHeader'
-import { getTags } from '@/services/myQuestion/create'
+import {getPersonalQuestionList, getTags} from '@/services/myQuestion/create'
 import styles from './index.less'
+import {getWrongQuestionList} from "@/services/audit";
 
 
 const MyQuestion = (props) => {
@@ -102,21 +103,22 @@ const MyQuestion = (props) => {
           <Link to="/questionBank/personalQuestion/create">新建</Link>
         </Button>
       </div>
-        <QuestionList className={styles.questionTable}
-          query={{
-            ...query,
-            queryType: 1,
-          }}
-          isAudit={true}
-          // 审核通过发布的权限
-          isExamine={false}
-          // edit
-          // sub
-          // rev
-          // del
-          // verb
-          notAllowBtns={['verb', 'rev']}
-          detailUrl="/questionBank/personalQuestion/detail/"
+        <QuestionList
+            modifyRequest={getPersonalQuestionList}
+            className={styles.questionTable}
+            query={{
+              ...query
+            }}
+            isAudit={true}
+            // 审核通过发布的权限
+            isExamine={false}
+            // edit
+            // sub
+            // rev
+            // del
+            // verb
+            notAllowBtns={['verb', 'rev']}
+            detailUrl="/questionBank/personalQuestion/detail/"
         />
 
     </div>

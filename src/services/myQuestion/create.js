@@ -75,6 +75,29 @@ export async function getMyQuestionList(params) {
     params: p
   });
 }
+
+/**
+ * 个人出题列表
+ * @param params
+ * @returns {Promise<any>}
+ */
+export async function getPersonalQuestionList(params) {
+  let p = {}
+  if (params.subject) {
+    p = {
+      ...params,
+      leafNodeIds: params.subject.pop()
+    }
+    delete p.subject
+  } else {
+    p = params
+  }
+  return request('/v1/topic/personal/list', {
+    method: 'GET',
+    params: p
+  });
+}
+
 export async function deleteQuestion(params) {
   const { id } = params
   return request(`/v1/topic/${id}`, {

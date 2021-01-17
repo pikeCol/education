@@ -235,12 +235,14 @@ const ShareDetail = (props) => {
 const useDetail = (params) => {
   getShareDetail(params).then(res => {
     if (res.code < 300) {
-      const content = Object.keys(res.data.content).map(x => {
-        return {
-          name: x,
-          ...res.data.content[x]
-        }
-      })
+      if(res.data.content){
+        const content = Object.keys(res.data.content).map(x => {
+          return {
+            name: x,
+            ...res.data.content[x]
+          }
+        })
+      }
       setDetail(res.data)
     }
   })

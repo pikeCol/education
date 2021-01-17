@@ -8,7 +8,9 @@ const useList = (query, page, modifyRequest) => {
   const [list, setList] = useState([])
   const [totalN, setTotalN] = useState(0)
   useEffect(() => {
-    const fn = modifyRequest || getMyQuestionList
+    const fn = modifyRequest || getMyQuestionList;
+    console.log("123123123" + fn)
+    console.log("modifyRequest" + modifyRequest)
     fn({
       ...query,
       pageSize: page.pageSize,
@@ -27,7 +29,7 @@ const useList = (query, page, modifyRequest) => {
   return [list, totalN]
 }
 const QuestionList = (props) => {
-  const { query = {}, detailUrl, modifyRequest, isAudit, isWrong, notAllowBtns, isExamine, putOn } = props
+  const { query = {}, detailUrl, modifyRequest, isAudit, isWrong, notAllowBtns, isExamine, putOn } = props;
   const [page, setPage] = useState({
     pageNum: 1,
     pageSize: 10
