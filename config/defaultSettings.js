@@ -9,9 +9,9 @@ export default {
   fixSiderbar: false,
   colorWeak: false,
   menu: {
-    locale: true,
+    locale: false,
   },
-  title: 'Ant Design Pro',
+  title: '加斯铭后台管理系统',
   pwa: false,
   iconfontUrl: '',
 };

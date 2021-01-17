@@ -10,8 +10,8 @@ const Model = {
     status: undefined,
   },
   effects: {
-    // *getCaptcha({ payload }, { call, put }) {
-    //   const response = yield call(getCaptcha, payload);
+    // *getMenus({ payload }, { call, put }) {
+    //   const response = yield call(getMenus, payload);
     //   const { code, data } = response
     //   if (code < 300) {
     //     yield put({

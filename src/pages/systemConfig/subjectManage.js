@@ -42,8 +42,14 @@ const SubjectManage = () => {
       item.title = (
         <div className={styles.treeTitle}>
           <span className={styles.title}>{item.name}</span>
-            <MinusOutlined className={styles.pd8} onClick={() => setDeleteModalVisible(true)}/>
-            <PlusOutlined className={styles.pd8} onClick={() => { setModalType(0);setModalVisible(true)}}/>
+            {
+              item.leaf === 0 &&
+              <MinusOutlined className={styles.pd8} onClick={() => setDeleteModalVisible(true)}/>
+            }
+            {
+              item.leaf === 0 &&
+              <PlusOutlined className={styles.pd8} onClick={() => { setModalType(0);setModalVisible(true)}}/>
+            }
             <FormOutlined className={styles.pd8} onClick={() => {setModalType(1);setModalVisible(true)}}/>
         </div>
       )
@@ -79,12 +85,13 @@ const SubjectManage = () => {
         setModalVisible(false);
       })
     } else {
-      if (selectedInfo.node.pos.split('-').length >= 6) {
+      const length = selectedInfo.node.pos.split('-').length
+      if (length >= 6) {
         message.error('最多添加5个层级')
         return
       }
       addQuestionSubject({
-        leaf: 0, //是否是叶子节点 1：是
+        leaf: length === 5 ? 1 : 0, //是否是叶子节点 1：是
         name: inputText,    // 名称
         parentId: selectedInfo.node.id
       }).then(res => {

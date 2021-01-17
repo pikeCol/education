@@ -4,7 +4,7 @@
  * https://github.com/ant-design/ant-design-pro-layout
  */
 import ProLayout, { DefaultFooter } from '@ant-design/pro-layout';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useIntl, connect } from 'umi';
 import { GithubOutlined } from '@ant-design/icons';
 import { Result, Button } from 'antd';
@@ -12,6 +12,9 @@ import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { getAuthorityFromRouter } from '@/utils/utils';
 import logo from '../assets/logo.svg';
+import { getMobileCaptcha, getCaptcha } from '@/services/login';
+import { getMenus } from '@/services/login';
+
 
 const noMatch = (
   <Result
@@ -30,38 +33,12 @@ const noMatch = (
  * use Authorized check all menu item
  */
 const menuDataRender = menuList => {
-  // console.log(menuList);
+  console.log(menuList);
   return menuList.map(item => {
     const localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
     return Authorized.check(item.authority, localItem, null);
   });
 }
-
-const defaultFooterDom = (
-  <DefaultFooter
-    copyright="2019 蚂蚁金服体验技术部出品"
-    links={[
-      {
-        key: 'Ant Design Pro',
-        title: 'Ant Design Pro',
-        href: 'https://pro.ant.design',
-        blankTarget: true,
-      },
-      {
-        key: 'github',
-        title: <GithubOutlined />,
-        href: 'https://github.com/ant-design/ant-design-pro',
-        blankTarget: true,
-      },
-      {
-        key: 'Ant Design',
-        title: 'Ant Design',
-        href: 'https://ant.design',
-        blankTarget: true,
-      },
-    ]}
-  />
-);
 
 const BasicLayout = props => {
   const {
@@ -72,6 +49,7 @@ const BasicLayout = props => {
       pathname: '/',
     },
   } = props;
+  const [menusList, setMenusList] = useState([])
   /**
    * constructor
    */
@@ -82,6 +60,16 @@ const BasicLayout = props => {
         type: 'user/fetchCurrent',
       });
     }
+    getMenus().then(res => {
+      if (res.code < 300) {
+        const data = res.data
+        data.unshift({
+          path: '/welcome',
+          name: 'welcome',
+        })
+        setMenusList(data)
+      }
+    })
   }, []);
   /**
    * init variables
@@ -112,6 +100,9 @@ const BasicLayout = props => {
       )}
       onCollapse={handleMenuCollapse}
       menuItemRender={(menuItemProps, defaultDom) => {
+        console.log('====================================');
+        console.log(menuItemProps, defaultDom);
+        console.log('====================================');
         if (menuItemProps.isUrl || menuItemProps.children || !menuItemProps.path) {
           return defaultDom;
         }
@@ -135,8 +126,7 @@ const BasicLayout = props => {
             <span>{route.breadcrumbName}</span>
           );
       }}
-      // footerRender={() => defaultFooterDom}
-      menuDataRender={menuDataRender}
+      menuDataRender={() => menusList}
       rightContentRender={() => <RightContent />}
       {...props}
       {...settings}

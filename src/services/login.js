@@ -18,3 +18,10 @@ export async function getMobileCaptcha(params) {
     data: params
   });
 }
+
+export async function getMenus(params) {
+  return request(`/v1/system/menus`, {
+    method: 'GET',
+    params
+  });
+}
