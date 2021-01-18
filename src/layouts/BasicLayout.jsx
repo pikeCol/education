@@ -6,14 +6,39 @@
 import ProLayout, { DefaultFooter } from '@ant-design/pro-layout';
 import React, { useEffect, useState } from 'react';
 import { Link, useIntl, connect } from 'umi';
-import { GithubOutlined } from '@ant-design/icons';
 import { Result, Button } from 'antd';
+import { SmileOutlined, CrownOutlined, AreaChartOutlined, 
+  BarChartOutlined, DotChartOutlined, LineChartOutlined, BankOutlined,
+  ShareAltOutlined, DiffOutlined,PullRequestOutlined,UserAddOutlined, 
+  AuditOutlined, FileProtectOutlined,ExceptionOutlined, IdcardOutlined, 
+  ReconciliationOutlined, ReadOutlined} from '@ant-design/icons';
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { getAuthorityFromRouter } from '@/utils/utils';
 import logo from '../assets/logo.svg';
 import { getMobileCaptcha, getCaptcha } from '@/services/login';
 import { getMenus } from '@/services/login';
+
+
+const IconMap = {
+  'smile': <SmileOutlined />,
+  'crown': <CrownOutlined />,
+  'area-chart': <AreaChartOutlined />,
+  'bar-chart': <BarChartOutlined />,
+  'dot-chart': <DotChartOutlined />,
+  'line-chart': <LineChartOutlined />,
+  'bank': <BankOutlined />,
+  'share-alt': <ShareAltOutlined />,
+  'diff': <DiffOutlined />,
+  'pull-request': <PullRequestOutlined />,
+  'user-add': <UserAddOutlined />,
+  'audit': <AuditOutlined />,
+  'file-protect': <FileProtectOutlined />,
+  'exception': <ExceptionOutlined />,
+  'idcard': <IdcardOutlined />,
+  'reconciliation': <ReconciliationOutlined />,
+  'read': <ReadOutlined />,
+}
 
 
 const noMatch = (
@@ -35,8 +60,13 @@ const noMatch = (
 const menuDataRender = menuList => {
   console.log(menuList);
   return menuList.map(item => {
-    const localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
-    return Authorized.check(item.authority, localItem, null);
+    const localItem = { 
+      ...item, 
+      children: item.children ? menuDataRender(item.children) : [],
+      icon: item.icon && IconMap[item.icon]
+    };
+    // return Authorized.check(item.authority, localItem, null);
+    return localItem
   });
 }
 
@@ -68,6 +98,7 @@ const BasicLayout = props => {
           name: 'welcome',
         })
         setMenusList(data)
+        // setMenusList(data)
       }
     })
   }, []);
@@ -100,9 +131,6 @@ const BasicLayout = props => {
       )}
       onCollapse={handleMenuCollapse}
       menuItemRender={(menuItemProps, defaultDom) => {
-        console.log('====================================');
-        console.log(menuItemProps, defaultDom);
-        console.log('====================================');
         if (menuItemProps.isUrl || menuItemProps.children || !menuItemProps.path) {
           return defaultDom;
         }
@@ -126,7 +154,7 @@ const BasicLayout = props => {
             <span>{route.breadcrumbName}</span>
           );
       }}
-      menuDataRender={() => menusList}
+      menuDataRender={() => menuDataRender(menusList)}
       rightContentRender={() => <RightContent />}
       {...props}
       {...settings}
