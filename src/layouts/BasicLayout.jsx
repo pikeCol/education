@@ -58,7 +58,6 @@ const noMatch = (
  * use Authorized check all menu item
  */
 const menuDataRender = menuList => {
-  console.log(menuList);
   return menuList.map(item => {
     const localItem = { 
       ...item, 
