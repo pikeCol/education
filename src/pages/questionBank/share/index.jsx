@@ -133,7 +133,7 @@ const QuestionShare = () => {
           Promise.all(selectedRowKeys.map(id => {
             return cancelShare({
               id,
-              status: 6
+              status: 5
             })
           })).then(() => {
             pageChange(1, 10)
@@ -151,7 +151,7 @@ const QuestionShare = () => {
           Promise.all(selectedRowKeys.map(id => {
             return cancelShare({
               id,
-              status: 5
+              status: 6
             })
           })).then(() => {
             pageChange(1, 10)
