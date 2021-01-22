@@ -17,6 +17,10 @@ const { Step } = Steps
 const { Option } = Select
 const useQuestionDetail = (params, form) => {
   const [detail, setDetail] = useState({})
+  console.log(params);
+  if (Object.keys(params).length === 0) {
+    return detail
+  }
   useEffect(() => {
     getQuestionDetail(params).then(res => {
       if (res.code < 300) {

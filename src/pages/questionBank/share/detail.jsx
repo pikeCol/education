@@ -234,6 +234,8 @@ const ShareDetail = (props) => {
 
 const useDetail = (params) => {
   getShareDetail(params).then(res => {
+    const order = [ "单选题","多选题", "判断题", "填空题",]
+    {/* const order = [ "填空题", "单选题","多选题", "判断题",] */}
     if (res.code < 300) {
       if(res.data.content){
         const content = Object.keys(res.data.content).map(x => {
@@ -242,6 +244,10 @@ const useDetail = (params) => {
             ...res.data.content[x]
           }
         })
+        content.sort((a, b) => {
+          return order.indexOf(a.name) - order.indexOf(b.name)
+        })
+        res.data.content = content
       }
       setDetail(res.data)
     }
@@ -360,7 +366,7 @@ const fetchList = ({pageSize = 10, pageNum = 1, ...query}) => {
   const handleOk = () => {
     if (selectedRows.length > 0) {
       addTopic({
-        topicIds: [selectedRows[0].id],
+        topicIds: selectedRows.map(v => v.id),
         paperId: params.id,
       }).then((res) => {
         if (res.code < 300) {
@@ -461,6 +467,10 @@ const fetchList = ({pageSize = 10, pageNum = 1, ...query}) => {
       })
     }
   ]
+
+  const onChange = page => {
+    console.log(page);
+  };
   const [query, setQuery] = useState({})
 
 
@@ -469,8 +479,8 @@ const fetchList = ({pageSize = 10, pageNum = 1, ...query}) => {
       <QuestionDeailHeader className='header' data={detail} />
       <div id="content">
       {
-        detail.content && Object.keys(detail.content).map((v, index) => {
-          return <QuestionDeatailContent refresh={() => useDetail(params)} key={index} className='content' paperId={params.id} data={detail.content[v]} title={v}/>
+        detail.content && detail.content.map((v, index) => {
+          return <QuestionDeatailContent refresh={() => useDetail(params)} key={index} className='content' paperId={params.id} data={v} title={v.name}/>
         })
       }
       </div>
@@ -497,12 +507,16 @@ const fetchList = ({pageSize = 10, pageNum = 1, ...query}) => {
           }} />
         <Table
           rowSelection={{
-            type: 'radio',
+            type: 'checkbox',
             ...rowSelection,
           }}
           rowKey={record => record.id}
           bordered
-          pagination={{...page, total}}
+          pagination={{
+            ...page, 
+            total,
+            onChange: () => onPageChange(page)
+          }}
           columns={columns}
           dataSource={list}
         />

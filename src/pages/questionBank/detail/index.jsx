@@ -89,7 +89,7 @@ const QuestionDeailHeader = (props) => {
           <span>{auditUserName || '-'}</span>
         </Col>
         <Col span={12}>
-          <span className={styles.title}>提交时间：</span>
+          <span className={styles.title}>审核时间：</span>
           <span>{auditTime}</span>
         </Col>
       </Row>

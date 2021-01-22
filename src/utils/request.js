@@ -36,7 +36,6 @@ const codeMessage = {
 
 const errorHandler = error => {
   const { response } = error;
-
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
@@ -79,6 +78,11 @@ request.interceptors.response.use(async (response) => {
         }),
       });
     }
+  } else if (data.code > 300) {
+    notification.error({
+      message: `${data.message}`,
+      description: errorText,
+    });
   }
   return response
 

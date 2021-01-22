@@ -109,7 +109,7 @@ const MyQuestion = (props) => {
             query={{
               ...query
             }}
-            isAudit={true}
+            isAudit={false}
             // 审核通过发布的权限
             isExamine={false}
             // edit
