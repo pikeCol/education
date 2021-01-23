@@ -89,11 +89,6 @@ request.interceptors.response.use(async (response) => {
       message: `${data.message}`,
       description: '服务器错误',
     });
-  } else {
-    notification.error({
-      message: `服务器错误`,
-      description: '服务器错误',
-    });
   }
   return response
 
