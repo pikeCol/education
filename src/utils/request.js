@@ -36,6 +36,9 @@ const codeMessage = {
 
 const errorHandler = error => {
   const { response } = error;
+  console.log('=================error===================');
+  console.log(error);
+  console.log('====================================');
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
@@ -48,6 +51,9 @@ const errorHandler = error => {
       description: '您的网络发生异常，无法连接服务器',
       message: '网络异常',
     });
+    return {
+      code: 500
+    }
   }
 
   return response;
@@ -81,7 +87,12 @@ request.interceptors.response.use(async (response) => {
   } else if (data.code > 300) {
     notification.error({
       message: `${data.message}`,
-      description: errorText,
+      description: '服务器错误',
+    });
+  } else {
+    notification.error({
+      message: `服务器错误`,
+      description: '服务器错误',
     });
   }
   return response
