@@ -1,9 +1,11 @@
-import { Button, Table, Modal } from 'antd';
+import { Button, Table, Modal, Select} from 'antd';
 import React, { useState, useCallback, useEffect } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { getAccounts } from '@/pages/OrgManagement/service';
+import { getSchool } from '@/pages/OrgManagement/service';
 import styles from './style.less';
 
+const { Option } = Select;
 const getAccountsList = async (data) => {
   const res = await getAccounts(data)
   // console.log(res)
@@ -18,13 +20,38 @@ const SchoolManagement = () => {
   const [total, setTotal] = useState(0)
   const [pageSize, setPageSize] = useState(10)
   const [pageNum, setPageNum] = useState(1)
+  const [schoolData, setSchoolData] = useState([]);
+  const [school, setSchool] = useState();
+
   const [loading, setLoading] = useState(false)
-  const handleImport = useCallback(
+  const handleSearch = useCallback(
     () => {
       console.log('handleAdd');
     },
     []
   )
+  const getSchoolList = async (data) => {
+    const res = await getSchool(data)
+    // console.log(res)
+    if (res.code < 300) {
+      return res.data
+    }
+    return null
+
+  }
+  useEffect(() => {
+      const theData = {
+        pageNum: 1,
+        pageSize: 999
+      }
+      getSchoolList(theData).then(res => {
+        if (res.records.length > 0) {
+          setSchoolData(res.records)
+          setSchool(res.records[0].id)
+        }
+      })
+    }, [])
+
   const handleDelOk = useCallback(
     () => {
       console.log('handleDelOk')
@@ -50,6 +77,10 @@ const SchoolManagement = () => {
     },
     []
   )
+  const handleSchoolSelect = useCallback(
+    (val) => {
+      setSchool(val)
+    }, [])
   const confirm = useCallback((data) => {
     console.log(data)
     setAccountData(data)
@@ -103,8 +134,8 @@ const SchoolManagement = () => {
     },
     {
       title: '角色',
-      dataIndex: 'role',
-      key: 'role',
+      dataIndex: 'roles',
+      key: 'roles',
     },
     {
       title: '操作',
@@ -125,7 +156,23 @@ const SchoolManagement = () => {
       <PageHeaderWrapper />
       <div className={styles.bg} >
         <div style={{ textAlign: 'left', marginTop: 15, marginBottom: 15 }}>
-          <Button type="primary" onClick={handleImport}>导入</Button>
+          账号数据:
+          <Select
+            showSearch
+            style={{ width: 200, margin: 'auto 15px' }}
+            placeholder="请选择学校"
+            optionFilterProp="children"
+            onSelect={handleSchoolSelect}
+            value={school}
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {schoolData.map(item => (
+              <Option value={item.id} key={item.id}>{item.name}</Option>
+            ))}
+          </Select>
+          <Button type="primary" onClick={handleSearch}>搜索</Button>
         </div>
         <Table loading={loading} scroll={{ x: 600 }} columns={columns} dataSource={accounts} rowKey="id" pagination={
           pagination
