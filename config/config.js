@@ -206,6 +206,10 @@ export default defineConfig({
           component: './OrgManagement/schoolNew',
         },
         {
+          path: '/organizationManage/person/new',
+          component: './OrgManagement/personNew',
+        },
+        {
           path: '/organizationManage/school/edit',
           component: './OrgManagement/schoolEdit',
         },

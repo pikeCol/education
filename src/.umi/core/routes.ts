@@ -216,6 +216,11 @@ export function getRoutes() {
                 "exact": true
               },
               {
+                "path": "/organizationManage/person/new",
+                "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__OrgManagement__personNew' */'/Users/pikeman/Downloads/github/education/src/pages/OrgManagement/personNew'), loading: LoadingComponent}),
+                "exact": true
+              },
+              {
                 "path": "/organizationManage/school/edit",
                 "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__OrgManagement__schoolEdit' */'/Users/pikeman/Downloads/github/education/src/pages/OrgManagement/schoolEdit'), loading: LoadingComponent}),
                 "exact": true

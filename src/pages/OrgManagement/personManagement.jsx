@@ -4,6 +4,8 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { getAccounts } from '@/pages/OrgManagement/service';
 import { getSchool } from '@/pages/OrgManagement/service';
 import styles from './style.less';
+import { history } from 'umi'
+import { Link } from 'react-router-dom'
 
 const { Option } = Select;
 const getAccountsList = async (data) => {
@@ -24,9 +26,26 @@ const SchoolManagement = () => {
   const [school, setSchool] = useState();
 
   const [loading, setLoading] = useState(false)
-  const handleSearch = useCallback(
+  const handleSearch = () => {
+    setLoading(true)
+    const theData = {
+      pageNum,
+      pageSize,
+      schoolId: school
+    }
+    getAccountsList(theData).then(res => {
+      console.log(res);
+      setAccounts(res.records)
+      setTotal(res.total)
+      setLoading(false)
+    })
+  }
+  const handleAdd = useCallback(
     () => {
-      console.log('handleAdd');
+      history.push({
+        pathname: `./person/new`,
+        name: 'personNew',
+      })
     },
     []
   )
@@ -50,7 +69,7 @@ const SchoolManagement = () => {
           setSchool(res.records[0].id)
         }
       })
-    }, [])
+  }, [])
 
   const handleDelOk = useCallback(
     () => {
@@ -77,10 +96,9 @@ const SchoolManagement = () => {
     },
     []
   )
-  const handleSchoolSelect = useCallback(
-    (val) => {
+  const handleSchoolSelect = (val) => {
       setSchool(val)
-    }, [])
+  }
   const confirm = useCallback((data) => {
     console.log(data)
     setAccountData(data)
@@ -96,6 +114,7 @@ const SchoolManagement = () => {
     const theData = {
       pageNum,
       pageSize,
+      schoolId: ''
     }
     getAccountsList(theData).then(res => {
       console.log(res);
@@ -134,8 +153,8 @@ const SchoolManagement = () => {
     },
     {
       title: '角色',
-      dataIndex: 'roles',
-      key: 'roles',
+      dataIndex: 'roleNames',
+      key: 'roleNames',
     },
     {
       title: '操作',
@@ -144,8 +163,13 @@ const SchoolManagement = () => {
         // console.log(record)
         return (
           <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-            <a>角色变更</a>
-            <a onClick={() => confirm(record)}>删除</a>
+            <Link type="link" to={{
+                pathname: `/organizationManage/person/new`,
+                query: {
+                  id: record.id
+                }
+              }}>详情</Link>
+            {/* <a onClick={() => confirm(record)}>删除</a> */}
           </div>
         )
       },
@@ -156,7 +180,7 @@ const SchoolManagement = () => {
       <PageHeaderWrapper />
       <div className={styles.bg} >
         <div style={{ textAlign: 'left', marginTop: 15, marginBottom: 15 }}>
-          账号数据:
+          学校:
           <Select
             showSearch
             style={{ width: 200, margin: 'auto 15px' }}
@@ -173,6 +197,7 @@ const SchoolManagement = () => {
             ))}
           </Select>
           <Button type="primary" onClick={handleSearch}>搜索</Button>
+          <Button type="primary" style={{ marginLeft: 15 }} onClick={handleAdd}>新增</Button>
         </div>
         <Table loading={loading} scroll={{ x: 600 }} columns={columns} dataSource={accounts} rowKey="id" pagination={
           pagination

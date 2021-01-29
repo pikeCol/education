@@ -5,7 +5,6 @@ import { getSchool } from '@/pages/OrgManagement/service';
 import { history } from 'umi'
 import styles from './style.less';
 
-console.log(history);
 const toDetail = (data) => {
   // history.push(`./school/${data.id}`)
   history.push({
