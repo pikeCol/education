@@ -35,8 +35,10 @@ const SchoolManagement = () => {
     }
     getAccountsList(theData).then(res => {
       console.log(res);
-      setAccounts(res.records)
-      setTotal(res.total)
+      if (res && res.records) {
+        setAccounts(res.records)
+        setTotal(res.total)
+      }
       setLoading(false)
     })
   }
