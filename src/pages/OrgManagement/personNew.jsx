@@ -35,6 +35,7 @@ const PersonNew = (props) => {
     setLoading(true)
     const theData = {
       ...val,
+      grades: [val.grades.pop()],
       id: query.id
     }
     console.log(theData);
@@ -86,10 +87,10 @@ const PersonNew = (props) => {
         if (code < 300) {
           formRef.current.setFieldsValue({
             nick: data.nick,
-            grades: data.grades,
+            grades: data.gradeTrees[0],
             mail: data.mail,
             phone: data.phone,
-            roles: data.roles[0],
+            roleIds: data.roleIds.map(v => v.toString()),
             schoolId: data.schoolId,
           })
         }

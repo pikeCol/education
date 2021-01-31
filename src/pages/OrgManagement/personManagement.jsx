@@ -116,7 +116,7 @@ const SchoolManagement = () => {
     const theData = {
       pageNum,
       pageSize,
-      schoolId: ''
+      schoolId: school
     }
     getAccountsList(theData).then(res => {
       console.log(res);
