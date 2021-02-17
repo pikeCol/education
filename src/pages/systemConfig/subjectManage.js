@@ -43,11 +43,11 @@ const SubjectManage = () => {
         <div className={styles.treeTitle}>
           <span className={styles.title}>{item.name}</span>
             {
-              item.leaf === 0 &&
+              item.leaf !== 1 &&
               <MinusOutlined className={styles.pd8} onClick={() => setDeleteModalVisible(true)}/>
             }
             {
-              item.leaf === 0 &&
+              item.leaf !== 1 &&
               <PlusOutlined className={styles.pd8} onClick={() => { setModalType(0);setModalVisible(true)}}/>
             }
             <FormOutlined className={styles.pd8} onClick={() => {setModalType(1);setModalVisible(true)}}/>
@@ -91,7 +91,7 @@ const SubjectManage = () => {
         return
       }
       addQuestionSubject({
-        leaf: length === 5 ? 1 : 0, //是否是叶子节点 1：是
+        leaf: length === 5 ? 1 : length === 3 ? 2 : 0, // 1：叶子节点  2：年级节点
         name: inputText,    // 名称
         parentId: selectedInfo.node.id
       }).then(res => {

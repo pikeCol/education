@@ -7,11 +7,26 @@ import ProLayout, { DefaultFooter } from '@ant-design/pro-layout';
 import React, { useEffect, useState } from 'react';
 import { Link, useIntl, connect } from 'umi';
 import { Result, Button } from 'antd';
-import { SmileOutlined, CrownOutlined, AreaChartOutlined, 
-  BarChartOutlined, DotChartOutlined, LineChartOutlined, BankOutlined,
-  ShareAltOutlined, DiffOutlined,PullRequestOutlined,UserAddOutlined, 
-  AuditOutlined, FileProtectOutlined,ExceptionOutlined, IdcardOutlined, 
-  ReconciliationOutlined, ReadOutlined} from '@ant-design/icons';
+import {
+  SmileOutlined,
+  CrownOutlined,
+  AreaChartOutlined,
+  BarChartOutlined,
+  DotChartOutlined,
+  LineChartOutlined,
+  BankOutlined,
+  ShareAltOutlined,
+  DiffOutlined,
+  PullRequestOutlined,
+  UserAddOutlined,
+  AuditOutlined,
+  FileProtectOutlined,
+  ExceptionOutlined,
+  IdcardOutlined,
+  SettingOutlined,
+  ReconciliationOutlined,
+  ReadOutlined,
+} from '@ant-design/icons';
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { getAuthorityFromRouter } from '@/utils/utils';
@@ -19,27 +34,26 @@ import logo from '../assets/logo.svg';
 import { getMobileCaptcha, getCaptcha } from '@/services/login';
 import { getMenus } from '@/services/login';
 
-
 const IconMap = {
-  'smile': <SmileOutlined />,
-  'crown': <CrownOutlined />,
+  smile: <SmileOutlined />,
+  setting: <SettingOutlined />,
+  crown: <CrownOutlined />,
   'area-chart': <AreaChartOutlined />,
   'bar-chart': <BarChartOutlined />,
   'dot-chart': <DotChartOutlined />,
   'line-chart': <LineChartOutlined />,
-  'bank': <BankOutlined />,
+  bank: <BankOutlined />,
   'share-alt': <ShareAltOutlined />,
-  'diff': <DiffOutlined />,
+  diff: <DiffOutlined />,
   'pull-request': <PullRequestOutlined />,
   'user-add': <UserAddOutlined />,
-  'audit': <AuditOutlined />,
+  audit: <AuditOutlined />,
   'file-protect': <FileProtectOutlined />,
-  'exception': <ExceptionOutlined />,
-  'idcard': <IdcardOutlined />,
-  'reconciliation': <ReconciliationOutlined />,
-  'read': <ReadOutlined />,
-}
-
+  exception: <ExceptionOutlined />,
+  idcard: <IdcardOutlined />,
+  reconciliation: <ReconciliationOutlined />,
+  read: <ReadOutlined />,
+};
 
 const noMatch = (
   <Result
@@ -57,19 +71,19 @@ const noMatch = (
 /**
  * use Authorized check all menu item
  */
-const menuDataRender = menuList => {
-  return menuList.map(item => {
-    const localItem = { 
-      ...item, 
+const menuDataRender = (menuList) => {
+  return menuList.map((item) => {
+    const localItem = {
+      ...item,
       children: item.children ? menuDataRender(item.children) : [],
-      icon: item.icon && IconMap[item.icon]
+      icon: item.icon && IconMap[item.icon],
     };
     // return Authorized.check(item.authority, localItem, null);
-    return localItem
+    return localItem;
   });
-}
+};
 
-const BasicLayout = props => {
+const BasicLayout = (props) => {
   const {
     dispatch,
     children,
@@ -78,7 +92,7 @@ const BasicLayout = props => {
       pathname: '/',
     },
   } = props;
-  const [menusList, setMenusList] = useState([])
+  const [menusList, setMenusList] = useState([]);
   /**
    * constructor
    */
@@ -89,23 +103,23 @@ const BasicLayout = props => {
         type: 'user/fetchCurrent',
       });
     }
-    getMenus().then(res => {
+    getMenus().then((res) => {
       if (res.code < 300) {
-        const data = res.data
+        const data = res.data;
         data.unshift({
           path: '/welcome',
           name: 'welcome',
-        })
-        setMenusList(data)
+        });
+        setMenusList(data);
         // setMenusList(data)
       }
-    })
+    });
   }, []);
   /**
    * init variables
    */
 
-  const handleMenuCollapse = payload => {
+  const handleMenuCollapse = (payload) => {
     if (dispatch) {
       dispatch({
         type: 'global/changeLayoutCollapsed',
@@ -150,8 +164,8 @@ const BasicLayout = props => {
         return first ? (
           <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
         ) : (
-            <span>{route.breadcrumbName}</span>
-          );
+          <span>{route.breadcrumbName}</span>
+        );
       }}
       menuDataRender={() => menuDataRender(menusList)}
       rightContentRender={() => <RightContent />}
@@ -161,7 +175,6 @@ const BasicLayout = props => {
       <Authorized authority={authorized.authority} noMatch={noMatch}>
         {children}
       </Authorized>
-
     </ProLayout>
   );
 };
