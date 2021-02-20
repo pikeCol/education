@@ -4,6 +4,7 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { getSchool } from '@/pages/OrgManagement/service';
 import { history } from 'umi'
 import styles from './style.less';
+import moment from "moment/moment";
 
 const toDetail = (data) => {
   // history.push(`./school/${data.id}`)
@@ -29,13 +30,16 @@ const columns = [
       let theHtml
       switch (status * 1) {
         case 0:
-          theHtml = (<span>正常</span>)
-          break;
-        case 1:
           theHtml = (<span>未生效</span>)
           break;
+        case 1:
+          theHtml = (<span>生效</span>)
+          break;
+        case 2:
+          theHtml = (<span>失效</span>)
+          break;
         default:
-          theHtml = (<></>)
+          theHtml = (<span>未知状态</span>)
           break;
       }
       return theHtml
@@ -51,6 +55,9 @@ const columns = [
     title: '生效时间',
     key: 'effectiveTime',
     dataIndex: 'effectiveTime',
+    render: (text, record) => {
+      return moment(record.effectiveStartTime).format('YYYY-MM-DD') + " - " + moment(record.effectiveEndTime).format('YYYY-MM-DD')
+    },
   },
   {
     title: 'Action',

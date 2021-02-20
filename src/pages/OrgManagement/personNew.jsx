@@ -35,10 +35,11 @@ const PersonNew = (props) => {
     setLoading(true)
     const theData = {
       ...val,
-      grades: [val.grades.pop()],
+      grades: [val.grades?.pop()],
       id: query.id
     }
     console.log(theData);
+
     const res = await (query.id ? putAccount : addAccount)(theData)
     setLoading(true)
     if (res.code < 300) {
@@ -87,10 +88,10 @@ const PersonNew = (props) => {
         if (code < 300) {
           formRef.current.setFieldsValue({
             nick: data.nick,
-            grades: data.gradeTrees[0],
+            grades: data.gradeTrees? data.gradeTrees[0] : null,
             mail: data.mail,
             phone: data.phone,
-            roleIds: data.roleIds.map(v => v.toString()),
+            roleIds: data.roleIds?.map(v => v.toString()),
             schoolId: data.schoolId,
           })
         }
@@ -154,12 +155,6 @@ const PersonNew = (props) => {
           <Form.Item
             name="mail"
             label="邮箱"
-            rules={[
-              {
-                required: true,
-                message: '请输入邮箱',
-              },
-            ]}
           >
             <Input style={{ width: 400 }} maxLength={20} />
           </Form.Item>
@@ -189,12 +184,6 @@ const PersonNew = (props) => {
           <Form.Item 
             name="grades" 
             label="年级"
-            rules={[
-              {
-                required: true,
-                message: '请选择年级',
-              },
-            ]}
           >
             <Cascader
               style={{ width: 400 }} 
