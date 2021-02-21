@@ -224,6 +224,11 @@ export function getRoutes() {
                 "path": "/organizationManage/school/edit",
                 "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__OrgManagement__schoolEdit' */'/Users/pikeman/Downloads/github/education/src/pages/OrgManagement/schoolEdit'), loading: LoadingComponent}),
                 "exact": true
+              },
+              {
+                "path": "/organizationManage/school/schoolDetail",
+                "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__OrgManagement__schoolDetail' */'/Users/pikeman/Downloads/github/education/src/pages/OrgManagement/schoolDetail'), loading: LoadingComponent}),
+                "exact": true
               }
             ]
           },

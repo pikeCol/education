@@ -213,6 +213,10 @@ export default defineConfig({
           path: '/organizationManage/school/edit',
           component: './OrgManagement/schoolEdit',
         },
+        {
+          path: '/organizationManage/school/schoolDetail',
+          component: './OrgManagement/schoolDetail',
+        },
         ],
       },
       {

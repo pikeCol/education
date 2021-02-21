@@ -124,7 +124,7 @@ const SchoolManagement = () => {
       setTotal(res.total)
       setLoading(false)
     })
-  }, [pageNum, pageSize])
+  }, [pageNum, pageSize, school])
   const pagination = {
     showQuickJumper: true,
     showSizeChanger: true,

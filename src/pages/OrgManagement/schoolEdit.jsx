@@ -69,8 +69,8 @@ const IndexHtml = () => {
           initialValues={{
             ...schoolData,
             effectiveTime: [
-              moment(schoolData.effectiveTime[0]),
-              moment(schoolData.effectiveTime[1]),
+              schoolData.effectiveTime && moment(schoolData.effectiveTime[0]),
+              schoolData.effectiveTime && moment(schoolData.effectiveTime[1]),
             ],
           }}
         >

@@ -139,7 +139,7 @@ const IndexHtml = () => {
           <Button type="primary" onClick={handleEdit}>编辑</Button>
         </div>
         <div>
-          {formatStatus(schoolData.status)}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;{schoolData.effectiveTime.join(' 至 ')}
+          {formatStatus(schoolData.status)}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;{schoolData.effectiveTime && schoolData.effectiveTime.join(' 至 ')}
         </div>
         <div>
           {schoolData.remarks}
