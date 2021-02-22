@@ -108,7 +108,8 @@ const BasicLayout = (props) => {
         const data = res.data;
         data.unshift({
           path: '/welcome',
-          name: 'welcome',
+          icon: 'smile',
+          name: '首页',
         });
         setMenusList(data);
         // setMenusList(data)

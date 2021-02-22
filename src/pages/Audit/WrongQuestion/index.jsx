@@ -13,13 +13,13 @@ import styles from './index.less'
 const WrongQuestion = (props) => {
   const selectOptions = [
     {
-      defaultValue: '0',
+      defaultValue: null,
       placeHolder: '请选择题型',
       queryKey: 'type',
       options: [
         {
           label: '全部题型',
-          value: '0'
+          value: null
         },
         {
           label: '选择题',
@@ -44,13 +44,13 @@ const WrongQuestion = (props) => {
       ]
     },
     {
-      defaultValue: '0',
+      defaultValue: null,
       placeHolder: '请选择难度',
       queryKey: 'difficultLevels',
       options: [
         {
           label: '全部难度',
-          value: '0'
+          value: null
         },
         {
           label: '一星',
@@ -75,7 +75,7 @@ const WrongQuestion = (props) => {
       ]
     },
     {
-      defaultValue: '0',
+      defaultValue: null,
       placeHolder: '请选择难度',
       queryKey: 'tagIds',
       options: new Promise((resolve) => {
@@ -84,7 +84,7 @@ const WrongQuestion = (props) => {
             resolve([
               {
                 label: '全部标签',
-                value: '0'
+                value: null
               },
               ...res.data.map(x => {
                 return { label: x.value, value: `${x.id}` }

@@ -39,7 +39,7 @@ const QuestionDeailHeader = (props) => {
       case 1:
         return '待审核'
       case 2:
-        return '发布中'
+        return '已发布'
       case 3:
         return '审核拒绝'
       case 4:
