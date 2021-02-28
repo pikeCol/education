@@ -49,7 +49,7 @@ const useRichQuestion = (detail, set) => {
       return
     }
     const { analysis = '', answer = '', options = [], question = '', type } = detail
-    const htmls = options.map(x => {
+    const htmls = options?.map(x => {
 
       return {
         value: createEditorState(x.split(' ')[1]),
