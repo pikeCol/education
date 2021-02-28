@@ -5,7 +5,7 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { StarOutlined, BookOutlined, BugFilled, DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { Col, Row, Button, Divider, Dropdown, Menu, Modal, Input } from 'antd'
 import { getQuestionDetail,getCorrectionQuestionDetail } from '@/services/questions/detail';
-import { changeQuestionStatus } from '@/services/audit';
+import { changeQuestionStatus,correctAudit } from '@/services/audit';
 import { deleteQuestion } from '@/services/myQuestion/create';
 import { QuestionTypesDetail } from '@/components/Enums';
 import { Link } from 'react-router-dom'
@@ -274,9 +274,9 @@ const QuestionDetail = (props) => {
       title = '判定是错题，并在题库中下架？'
       onOk = () => {
         return new Promise((resolve) => {
-          changeQuestionStatus({
-            status: 10,
-            id: detail.id,
+          correctAudit({
+            status: 11,
+            id: detail.correctionId,
             remark: '错题'
           }).then(res => {
             if(res.code < 300) {
@@ -291,9 +291,9 @@ const QuestionDetail = (props) => {
       title = '不是错题？'
       onOk = () => {
         return new Promise((resolve) => {
-          changeQuestionStatus({
-            status: 11,
-            id: detail.id
+          correctAudit({
+            status: 10,
+            id: detail.correctionId
           }).then(res => {
             if(res.code < 300) {
               history.goBack()
