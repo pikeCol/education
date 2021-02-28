@@ -4,7 +4,7 @@ import { history } from 'umi';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { StarOutlined, BookOutlined, BugFilled, DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { Col, Row, Button, Divider, Dropdown, Menu, Modal, Input } from 'antd'
-import { getQuestionDetail } from '@/services/questions/detail';
+import { getQuestionDetail,getCorrectionQuestionDetail } from '@/services/questions/detail';
 import { changeQuestionStatus } from '@/services/audit';
 import { deleteQuestion } from '@/services/myQuestion/create';
 import { QuestionTypesDetail } from '@/components/Enums';
@@ -190,13 +190,32 @@ const useDetail = (params) => {
   }, [])
   return detail
 }
+
+const correctionUseDetail = (params) => {
+  const [detail, setDetail] = useState({})
+  useEffect(() => {
+    getCorrectionQuestionDetail(params).then(res => {
+      if (res.code < 300) {
+        setDetail(res.data)
+      }
+    })
+  }, [])
+  return detail
+}
+
 const QuestionDetail = (props) => {
   const { match = {}, location = {}} = props
   const { params } = match
   const {state = {}} = location
   const { isAudit, isWrong, isExamine } = state
   console.log('QuestionDetail isWrong', isAudit, isWrong, isExamine)
-  const detail = useDetail(params)
+  let detail = {};
+  if(isWrong){
+    //纠错详情
+    detail = correctionUseDetail(params)
+  }else {
+    detail = useDetail(params)
+  }
   const [showModal, setShowModal] = useState(false)
   const backList = () => {
     history.goBack()

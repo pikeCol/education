@@ -7,6 +7,13 @@ export async function getQuestionDetail(params) {
   });
 }
 
+export async function getCorrectionQuestionDetail(params) {
+  const { id } = params
+  return request(`/v1/topic/correction/${id}`, {
+    method: 'GET',
+  });
+}
+
 
 export async function getShareDetail(params) {
   const { id } = params
