@@ -11,7 +11,7 @@ export default {
   menu: {
     locale: false,
   },
-  title: '加斯铭后台管理系统',
+  title: '加思铭后台管理系统',
   pwa: false,
   iconfontUrl: '',
 };

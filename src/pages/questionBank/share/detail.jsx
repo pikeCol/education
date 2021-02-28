@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getShareDetail } from '@/services/questions/detail';
+import { getShareDetail, paperPrint } from '@/services/questions/detail';
 import { Table, Button, Row, Col, Modal, Pagination } from 'antd'
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import './detail.less'
@@ -9,8 +9,11 @@ import { getMyQuestionList, addTopic, deleteTopic } from '@/services/myQuestion/
 import QuestionsearchHeader from '@/components/QuestionsearchHeader'
 import { getTags } from '@/services/myQuestion/create'
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-const pageStyle = `
+import { saveAs } from 'file-saver';
+import html2canvas from 'html2canvas';
+import htmlDocx from 'html-docx-js/dist/html-docx';
 
+const pageStyle = `
 @media all {
   .pagebreak {
     display: none;
@@ -292,10 +295,39 @@ const fetchList = ({pageSize = 10, pageNum = 1, ...query}) => {
     })
   }
 
+  const downloadPage = () => {
+    {/* html2canvas(document.getElementById('content')).then(canvas => {
+      const b64data = canvas.toDataURL("image/jpeg")
+      const b = base64ToBlob(b64data)
+      saveAs(b, 'a.docx')
+      console.log('====================================');
+      console.log(b);
+      console.log('====================================');
+    }) */}
+    var contentDocument = document.getElementById('content');
+    var content = '' + contentDocument.outerHTML;
+    content = content.replace(/\<span\>删 除\<\/span\>/g, '')
+    console.log(content);
+    var converted = htmlDocx.asBlob(content, {orientation: 'landscape', margins: {top: 220}});
+    saveAs(converted, 'a.docx')
 
+  }
+
+  {/* const base64ToBlob = (dataurl) => {
+    let arr = dataurl.split(',');
+    let mime = arr[0].match(/:(.*?);/)[1];
+    let bstr = atob(arr[1]);
+    let n = bstr.length;
+    let u8arr = new Uint8Array(n);
+    while(n--){
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {type: "application/msword;charset=utf-8"});
+   } */}
 
   const onBtnClick = () => {
     var iframe=document.getElementById("print-iframe");
+    var self= this
     if(!iframe){  
             var el = document.getElementById("content");
             iframe = document.createElement('IFRAME');
@@ -311,6 +343,11 @@ const fetchList = ({pageSize = 10, pageNum = 1, ...query}) => {
             doc.close();
             iframe.contentWindow.focus();            
     }
+    iframe.contentWindow.onafterprint = function() {
+      paperPrint({
+        id: detail.id
+      })
+    };
     iframe.contentWindow.print();
     if (navigator.userAgent.indexOf("MSIE") > 0){
         document.body.removeChild(iframe);
@@ -490,6 +527,9 @@ const fetchList = ({pageSize = 10, pageNum = 1, ...query}) => {
         </div>
 
         <div className='btns'>
+        <Button onClick={() => {
+            downloadPage()
+          }}>下载</Button>
           <Button onClick={() => {
             onBtnClick()
           }}>打印</Button>

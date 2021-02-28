@@ -11,6 +11,7 @@ import { getPageQuery } from '@/utils/utils';
 const globalData = {
   // url: 'http://114.55.94.182/api'
   url: 'http://114.55.94.182:8080',
+  // url: 'https://www.sengloo.com/api'
   // url: 'https://ashuteacher-daily.aliqi.club/api'
 }
 const codeMessage = {

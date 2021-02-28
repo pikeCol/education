@@ -124,6 +124,8 @@ const TheView = () => {
     if (!school) { return }
     const theData = {
       school,
+      pageNum: 1,
+      pageSize: 999
     }
     getAccountsList(theData).then(res => {
       setAccountsData(res.records)

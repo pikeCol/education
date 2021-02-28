@@ -98,6 +98,39 @@ const QuestionCell = (props) => {
         })
       }
     }
+    if (t === 'iserr') {
+      title = '判定是错题，并在题库中下架？'
+      onOk = () => {
+        return new Promise((resolve) => {
+          changeQuestionStatus({
+            status: 10,
+            id: data.id,
+            remark: '错题'
+          }).then(res => {
+            if(res.code < 300) {
+              history.goBack()
+            }
+            return Promise.resolve()
+          }).then(resolve)
+        })
+      }
+    }
+    if (t === 'noerr') {
+      title = '不是错题？'
+      onOk = () => {
+        return new Promise((resolve) => {
+          changeQuestionStatus({
+            status: 11,
+            id: data.id
+          }).then(res => {
+            if(res.code < 300) {
+              history.goBack()
+            }
+            return Promise.resolve()
+          }).then(resolve)
+        })
+      }
+    }
     if (t === 'sub') {
       title = '提交新题审核？'
       onOk = () => {
@@ -178,6 +211,14 @@ const QuestionCell = (props) => {
       onBtnClick('del')
     }}>删除</Button>
 
+    const wrongBtn = <Button key="iserr" type='link' style={{ color: 'red' }} onClick={() => {
+      onBtnClick('iserr')
+    }}>错题并下架</Button>
+
+    const noWrongBtn = <Button key="noErr" type='link' style={{ color: 'red' }} onClick={() => {
+      onBtnClick('noErr')
+    }}>不是错题</Button>
+
     const up = <Button key="up" type='link' onClick={() => {
       onBtnClick('up')
     }}>上架</Button>
@@ -190,6 +231,9 @@ const QuestionCell = (props) => {
         break;
       case 1:
         btnList = [rev]
+        if (isWrong) {
+          btnList = [iserr, noErr]
+        }
         break;
       case 2:
         btnList = [edit, del]
@@ -233,7 +277,7 @@ const QuestionCell = (props) => {
       <div>
         <Link type="link" to={{
           pathname: `${url}${data.id}`,
-          state: { isAudit, isWrong, isExamine }
+          state: { isAudit, isWrong, isExamine, putOn }
         }}>详情</Link>
         {status !== 2 ? status !== 10 ? <Divider type="vertical" /> : null : null}
         {

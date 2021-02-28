@@ -1,9 +1,20 @@
-import { Button, Table, Empty } from 'antd';
+import { Button, Table, Empty, Form } from 'antd';
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { getSchoolDetail, getAccounts } from '@/pages/OrgManagement/service';
 import { history } from 'umi'
 import styles from './style.less';
+
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 8 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 16 },
+  },
+};
 
 const { location: { query } } = history
 const columns = [
@@ -133,24 +144,43 @@ const IndexHtml = () => {
   return (
     <>
       <PageHeaderWrapper title="学校详情" />
-      {schoolData ? <div className={styles.bg} >
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div>{schoolData.name}</div>
-          <Button type="primary" onClick={handleEdit}>编辑</Button>
-        </div>
-        <div>
-          {formatStatus(schoolData.status)}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;{schoolData.effectiveTime && schoolData.effectiveTime.join(' 至 ')}
-        </div>
-        <div>
-          {schoolData.remarks}
-        </div>
-        <hr />
-        <div>人员账号</div>
-        <Table loading={loading} scroll={{ x: 600 }} columns={columns} dataSource={accounts} rowKey="id" pagination={
-          pagination
-        } />
-        <div />
-      </div> : <Empty style={{ margin: '20px auto' }} />}
+      {schoolData ? 
+      <Form
+          {...formItemLayout}
+          className={styles.bg}
+        >
+          <Form.Item
+            name="name"
+            label="学校名称"
+          >
+          {schoolData.name}
+          </Form.Item>
+          <Form.Item
+            name="effectiveTime"
+            label="生效日期"
+            >
+            {schoolData.effectiveTime}
+          </Form.Item>
+          <Form.Item
+            name="adminNick"
+            label="学校管理员昵称（用于创建账号）"
+          >
+          {schoolData.adminNick}
+          </Form.Item>
+          <Form.Item
+            name="adminPhone"
+            label="学校管理员手机号（用于创建账号）"
+          >
+            {schoolData.adminPhone}
+          </Form.Item>
+          <Form.Item
+            name="remarks"
+            label="备注信息 (选填)"
+          >
+            {schoolData.remarks}
+          </Form.Item>
+        </Form>
+      : <Empty style={{ margin: '20px auto' }} />}
     </>
   );
 };

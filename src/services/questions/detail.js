@@ -14,3 +14,10 @@ export async function getShareDetail(params) {
     method: 'GET',
   });
 }
+
+export async function paperPrint(params) {
+  return request(`/v1/paper/print`, {
+    method: 'GET',
+    params
+  });
+}

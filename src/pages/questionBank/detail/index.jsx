@@ -194,8 +194,8 @@ const QuestionDetail = (props) => {
   const { match = {}, location = {}} = props
   const { params } = match
   const {state = {}} = location
-  const { isAudit, isWrong, isExamine } = state
-  console.log('QuestionDetail isWrong', isAudit, isWrong, isExamine)
+  const { isAudit, isWrong, isExamine, putOn } = state
+  {/* console.log('QuestionDetail isWrong', isAudit, isWrong, isExamine) */}
   const detail = useDetail(params)
   const [showModal, setShowModal] = useState(false)
   const backList = () => {
@@ -284,6 +284,17 @@ const QuestionDetail = (props) => {
         })
       }
     }
+    if (t === 'up') {
+      title = '确定上架当前题目？'
+      onOk = () => {
+        return new Promise((resolve) => {
+          changeQuestionStatus({
+            status: 2,
+            id: detail.id
+          }).then(resolve)
+        })
+      }
+    }
     if (t === 'audit') {
       title = '审核通过并将此题发布至题库？'
       onOk = () => {
@@ -344,6 +355,11 @@ const QuestionDetail = (props) => {
     const reject = <Button key="reject" onClick={() => {
       onBtnClick('reject')
     }}>未通过</Button>
+
+    const up = <Button key="up" type='link' onClick={() => {
+      onBtnClick('up')
+    }}>上架</Button>
+
     {/* 作业卷和题目的状态定义: status 
     0保存中，草稿  未提交
     1待审核   / 提交
@@ -378,6 +394,7 @@ const QuestionDetail = (props) => {
       case 4:
         btnList = [edit, del]
         if (isExamine) btnList.push(audit)
+        if (putOn) btnList.push(up)
         break;
       case 10:
       case 11:
@@ -404,7 +421,7 @@ const QuestionDetail = (props) => {
         </div>
       </div>
     </div>
-    <RejectModal visible={showModal} onCancel={() => setShowModal(false)} />
+    <RejectModal id={detail.id} visible={showModal} onCancel={() => setShowModal(false)} />
   </PageHeaderWrapper>
 }
 export default QuestionDetail

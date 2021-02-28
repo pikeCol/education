@@ -10,7 +10,7 @@ import RadioSearch from '../../../components/RadioSearch'
 
 const columns = [
   { dataIndex: 'paperName', title: '名称' },
-  { dataIndex: 'type', title: '类型 >', render: (type) => type === 1 ? '试卷' : '练习' },
+  // { dataIndex: 'type', title: '类型 >', render: (type) => type === 1 ? '试卷' : '练习' },
   { dataIndex: 'topicNum', title: '题数 >'},
   { dataIndex: 'difficultyLevel', title: '难度 >' },
   { dataIndex: 'treeFullNames', title: '科目/年级 >' },
@@ -18,25 +18,26 @@ const columns = [
   { dataIndex: 'status', title: '状态', render: (status) => status === 6 ? '共享' : '不共享' },
   { dataIndex: 'id', title: '操作', render: (id) => <Link to={`/questionBank/share/detail/${id}`}>查看</Link> }
 ]
-const selectOptions = [{
-  defaultValue: null,
-  placeHolder: '请选择',
-  queryKey: 'type',
-  options: [
-    {
-      value: null,
-      label: '全部类型'
-    },
-    {
-      value: '1',
-      label: '试卷'
-    },
-    {
-      value: '2',
-      label: '练习'
-    }
-  ]
-},
+const selectOptions = [
+//   {
+//   defaultValue: null,
+//   placeHolder: '请选择',
+//   queryKey: 'type',
+//   options: [
+//     {
+//       value: null,
+//       label: '全部类型'
+//     },
+//     {
+//       value: '1',
+//       label: '试卷'
+//     },
+//     {
+//       value: '2',
+//       label: '练习'
+//     }
+//   ]
+// },
   {
     defaultValue: null,
     placeHolder: '请选择',

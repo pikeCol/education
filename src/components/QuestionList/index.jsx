@@ -9,8 +9,8 @@ const useList = (query, page, modifyRequest) => {
   const [totalN, setTotalN] = useState(0)
   useEffect(() => {
     const fn = modifyRequest || getMyQuestionList;
-    console.log("123123123" + fn)
-    console.log("modifyRequest" + modifyRequest)
+    // console.log("123123123" + fn)
+    // console.log("modifyRequest" + modifyRequest)
     fn({
       ...query,
       pageSize: page.pageSize,
