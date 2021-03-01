@@ -100,6 +100,7 @@ request.interceptors.request.use((url, a) => {
   }
   options.headers = {
     ...options.headers,
+    way:"pc",
     token: localStorage.getItem('token') || ''
   }
   return (

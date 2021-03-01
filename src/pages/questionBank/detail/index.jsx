@@ -4,8 +4,8 @@ import { history } from 'umi';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { StarOutlined, BookOutlined, BugFilled, DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { Col, Row, Button, Divider, Dropdown, Menu, Modal, Input } from 'antd'
-import { getQuestionDetail } from '@/services/questions/detail';
-import { changeQuestionStatus } from '@/services/audit';
+import { getQuestionDetail,getCorrectionQuestionDetail } from '@/services/questions/detail';
+import { changeQuestionStatus,correctAudit } from '@/services/audit';
 import { deleteQuestion } from '@/services/myQuestion/create';
 import { QuestionTypesDetail } from '@/components/Enums';
 import { Link } from 'react-router-dom'
@@ -190,13 +190,32 @@ const useDetail = (params) => {
   }, [])
   return detail
 }
+
+const correctionUseDetail = (params) => {
+  const [detail, setDetail] = useState({})
+  useEffect(() => {
+    getCorrectionQuestionDetail(params).then(res => {
+      if (res.code < 300) {
+        setDetail(res.data)
+      }
+    })
+  }, [])
+  return detail
+}
+
 const QuestionDetail = (props) => {
   const { match = {}, location = {}} = props
   const { params } = match
   const {state = {}} = location
   const { isAudit, isWrong, isExamine, putOn } = state
   {/* console.log('QuestionDetail isWrong', isAudit, isWrong, isExamine) */}
-  const detail = useDetail(params)
+  let detail = {};
+  if(isWrong){
+    //纠错详情
+    detail = correctionUseDetail(params)
+  }else {
+    detail = useDetail(params)
+  }
   const [showModal, setShowModal] = useState(false)
   const backList = () => {
     history.goBack()
@@ -255,9 +274,9 @@ const QuestionDetail = (props) => {
       title = '判定是错题，并在题库中下架？'
       onOk = () => {
         return new Promise((resolve) => {
-          changeQuestionStatus({
-            status: 10,
-            id: detail.id,
+          correctAudit({
+            status: 11,
+            id: detail.correctionId,
             remark: '错题'
           }).then(res => {
             if(res.code < 300) {
@@ -272,9 +291,9 @@ const QuestionDetail = (props) => {
       title = '不是错题？'
       onOk = () => {
         return new Promise((resolve) => {
-          changeQuestionStatus({
-            status: 11,
-            id: detail.id
+          correctAudit({
+            status: 10,
+            id: detail.correctionId
           }).then(res => {
             if(res.code < 300) {
               history.goBack()
