@@ -310,7 +310,12 @@ const QuestionDetail = (props) => {
           changeQuestionStatus({
             status: 2,
             id: detail.id
-          }).then(resolve)
+          }).then(res => {
+            if(res.code < 300) {
+              history.goBack()
+              return Promise.resolve()
+            }
+          })
         })
       }
     }
@@ -375,7 +380,7 @@ const QuestionDetail = (props) => {
       onBtnClick('reject')
     }}>未通过</Button>
 
-    const up = <Button key="up" type='link' onClick={() => {
+    const up = <Button key="up" type='primary' onClick={() => {
       onBtnClick('up')
     }}>上架</Button>
 
