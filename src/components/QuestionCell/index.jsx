@@ -232,7 +232,7 @@ const QuestionCell = (props) => {
       case 1:
         btnList = [rev]
         if (isWrong) {
-          btnList = [iserr, noErr]
+          btnList = [wrongBtn, noWrongBtn]
         }
         break;
       case 2:
