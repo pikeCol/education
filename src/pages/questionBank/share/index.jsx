@@ -6,6 +6,7 @@ import { getQuestionShareList, cancelShare, deleteSharePaper } from '@/services/
 import styles from './index.less'
 import QuestionsearchHeader from '../../../components/QuestionsearchHeader'
 import RadioSearch from '../../../components/RadioSearch'
+import { connect } from 'umi';
 
 
 const columns = [
@@ -96,7 +97,8 @@ const useList = (query, page) => {
   }, [query, page])
   return [list, total]
 }
-const QuestionShare = () => {
+const QuestionShare = (props) => {
+  const {currentUser} = props
   const [query, setQuery] = useState({ status: '6' })
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [page, setPage] = useState({
@@ -202,18 +204,21 @@ const QuestionShare = () => {
         defaultValue="0"
         options={searchOptions}
         onSearch={onSearch} />
-      <span>
-        <Button
-          disabled={!selectedRowKeys.length}
-          onClick={onBtnClick}>{query.status === '6' ? '取消共享' : '删除'}</Button>
-          {
-            query.status === '5' ? <Button
+      {
+        !currentUser.onlyTeacherAuthority && 
+        <span>
+          <Button
             disabled={!selectedRowKeys.length}
-            onClick={() => onBtnClick(5)}>共享</Button>
-            : ''
-          }
-        {selectedRowKeys.length ? <span>{`已选中${selectedRowKeys.length * 1}项`}</span> : null}
-      </span>
+            onClick={onBtnClick}>{query.status === '6' ? '取消共享' : '删除'}</Button>
+            {
+              query.status === '5' ? <Button
+              disabled={!selectedRowKeys.length}
+              onClick={() => onBtnClick(5)}>共享</Button>
+              : ''
+            }
+          {selectedRowKeys.length ? <span>{`已选中${selectedRowKeys.length * 1}项`}</span> : null}
+        </span>
+      }
     </span>
 
     <Table
@@ -224,4 +229,9 @@ const QuestionShare = () => {
       rowSelection={rowSelection} />
   </PageHeaderWrapper>
 }
-export default QuestionShare
+
+export default connect(({ user }) => ({
+  currentUser: user.currentUser,
+}))(QuestionShare);
+
+// export default QuestionShare

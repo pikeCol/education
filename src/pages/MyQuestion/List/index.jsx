@@ -7,9 +7,11 @@ import QuestionsearchHeader from '@/components/QuestionsearchHeader'
 import {getPersonalQuestionList, getTags} from '@/services/myQuestion/create'
 import styles from './index.less'
 import {getWrongQuestionList} from "@/services/audit";
+import { connect } from 'umi';
 
 
 const MyQuestion = (props) => {
+  const {currentUser} = props
   const selectOptions = [
     {
       defaultValue: null,
@@ -99,9 +101,12 @@ const MyQuestion = (props) => {
           onQuery={(querys) => {
             setQuery(querys)
           }} />
-        <Button type='primary' className={styles.btns}>
-          <Link to="/questionBank/personalQuestion/create">新建</Link>
-        </Button>
+        {
+          !currentUser.onlyTeacherAuthority && 
+          <Button type='primary' className={styles.btns}>
+            <Link to="/questionBank/personalQuestion/create">新建</Link>
+          </Button>
+        }
       </div>
         <QuestionList
             modifyRequest={getPersonalQuestionList}
@@ -125,4 +130,8 @@ const MyQuestion = (props) => {
 
   </PageHeaderWrapper>
 }
-export default MyQuestion
+export default connect(({ user }) => ({
+  currentUser: user.currentUser,
+}))(MyQuestion);
+// export default MyQuestion
+// export default MyQuestion
