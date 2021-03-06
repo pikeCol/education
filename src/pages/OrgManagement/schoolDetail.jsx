@@ -4,6 +4,7 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { getSchoolDetail, getAccounts } from '@/pages/OrgManagement/service';
 import { history } from 'umi'
 import styles from './style.less';
+import moment from "moment";
 
 const formItemLayout = {
   labelCol: {
@@ -159,7 +160,7 @@ const IndexHtml = () => {
             name="effectiveTime"
             label="生效日期"
             >
-            {schoolData.effectiveTime}
+            {moment(schoolData.effectiveStartTime).format("YYYY-MM-DD") + " ~ " + moment(schoolData.effectiveEndTime).format("YYYY-MM-DD")}
           </Form.Item>
           <Form.Item
             name="adminNick"
