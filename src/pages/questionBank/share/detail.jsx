@@ -4,7 +4,7 @@ import { Table, Button, Row, Col, Modal, Pagination } from 'antd'
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import './detail.less'
 import { QuestionTypesDetail } from '@/components/Enums';
-import { history } from 'umi';
+import { history, connect } from 'umi';
 import { getMyQuestionList, addTopic, deleteTopic } from '@/services/myQuestion/create'
 import QuestionsearchHeader from '@/components/QuestionsearchHeader'
 import { getTags } from '@/services/myQuestion/create'
@@ -222,7 +222,7 @@ const QuestionDeatailContent = (props) => {
 
 
 const ShareDetail = (props) => {
-  const { match = {}, location = {}} = props
+  const { match = {}, location = {}, currentUser = {}} = props
   const { params } = match
   const [detail, setDetail] = useState({})
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -533,9 +533,12 @@ const fetchList = ({pageSize = 10, pageNum = 1, ...query}) => {
           <Button onClick={() => {
             onBtnClick()
           }}>打印</Button>
-          <Button onClick={() => {
-            addClick()
-          }}>添加</Button>
+          {
+            !currentUser.onlyTeacherAuthority && 
+            <Button onClick={() => {
+              addClick()
+            }}>添加</Button>
+          }
         </div>
       </div>
       <Modal title="请选择题目" width={800} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
@@ -572,4 +575,8 @@ const fetchList = ({pageSize = 10, pageNum = 1, ...query}) => {
   </PageHeaderWrapper>
 }
 
-export default ShareDetail
+
+export default connect(({ user }) => ({
+  currentUser: user.currentUser,
+}))(ShareDetail);
+{/* export default ShareDetail */}

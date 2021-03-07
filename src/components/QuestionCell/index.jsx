@@ -7,6 +7,7 @@ import { changeQuestionStatus } from '@/services/audit';
 import { deleteQuestion } from '@/services/myQuestion/create';
 import styles from './index.less'
 import { QuestionTypesDetail } from '../Enums'
+import { connect } from 'umi';
 
 const CellBtnWrapper = (props) => {
   const { btn, key = '', audits = [] } = props
@@ -74,9 +75,9 @@ const statusRender = (status, reason) => {
   }
   return <span style={style}>{statuData.title}</span>
 }
-const QuestionCell = (props) => {
-  const { data = {}, isAudit, isWrong, url, onStateChange, notAllowBtns = [], isExamine, putOn } = props
-  console.log('QuestionCell========', isAudit, isWrong)
+const QuestionCell1 = (props) => {
+  const { data = {}, isAudit, isWrong, url, onStateChange, notAllowBtns = [], isExamine, putOn, currentUser } = props
+  // console.log('QuestionCell========', currentUser)
   const { question,
     difficultyLevel = 0,
     type,
@@ -207,7 +208,7 @@ const QuestionCell = (props) => {
     const rev = notAllowBtns.indexOf('rev') !== -1 ? null : <Button key="rev" type='link' onClick={() => {
       onBtnClick('rev')
     }}>撤回审核</Button>
-    const del = notAllowBtns.indexOf('del') !== -1 ? null : <Button key="del" type='link' style={{ color: 'red' }} onClick={() => {
+    const del = !currentUser.onlyTeacherAuthority && notAllowBtns.indexOf('del') !== -1 ? null : <Button key="del" type='link' style={{ color: 'red' }} onClick={() => {
       onBtnClick('del')
     }}>删除</Button>
 
@@ -219,7 +220,7 @@ const QuestionCell = (props) => {
       onBtnClick('noErr')
     }}>不是错题</Button>
 
-    const up = <Button key="up" type='link' onClick={() => {
+    const up = !currentUser.onlyTeacherAuthority && <Button key="up" type='link' onClick={() => {
       onBtnClick('up')
     }}>上架</Button>
 
@@ -267,7 +268,7 @@ const QuestionCell = (props) => {
       onBtnClick('verb')
     }}>下架 </Button>
   }
-  const normalRender = () => {
+  const normalRender = (currentUser) => {
     const overlay = menuRender()
     return <div className={styles.operate}>
       <div>
@@ -288,7 +289,7 @@ const QuestionCell = (props) => {
           </Dropdown>)
           : null
           : 
-          verbRender()}
+          !currentUser.onlyTeacherAuthority && verbRender()}
       </div>
     </div>
   }
@@ -313,10 +314,13 @@ const QuestionCell = (props) => {
     </div>
     <div className={styles.right}>
       <div>{statusRender(status, remark)}</div>
-      {isAudit ? auditRender() : normalRender()}
+      {isAudit ? auditRender() : normalRender(currentUser)}
     </div>
   </div>
 }
 
+const QuestionCell = connect(({ user }) => ({
+  currentUser: user.currentUser,
+}))(QuestionCell1);
 
 export { QuestionCell, QuestionCellContext }
