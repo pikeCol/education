@@ -123,7 +123,7 @@ const TheView = () => {
   useEffect(() => {
     if (!school) { return }
     const theData = {
-      school,
+      schoolId: school,
       pageNum: 1,
       pageSize: 999
     }

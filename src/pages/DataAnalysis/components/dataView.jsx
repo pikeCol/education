@@ -62,14 +62,14 @@ const TheView = (data) => {
       setLoading(false)
       setCountData(res[0])
       setBarData({
-        ...res[1],
-        title: '已发布题目统计 / 共享作业卷统计'
+        data: res[1],
+        title: '已发布题目统计 '
       })
     });
   }, []);
   return (
     <Spin spinning={loading} delay={500}>
-      {updateTime('2020.4.12 14:00:23')}
+      {updateTime(countData?.updateTime)}
       {countData && tabBoxes(countData)}
       {barData && <Bar id={data.id} style={{ minWidth: 600, overflowX: 'auto' }} chartData={barData} />}
       {!barData && <Empty style={{ margin: '20px auto' }} />}

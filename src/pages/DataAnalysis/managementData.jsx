@@ -15,9 +15,9 @@ const IndexHtml = () => {
         <TabPane tab="运营数据" key="1">
           <DataView id="runView" />
         </TabPane>
-        <TabPane tab="用户使用数据" key="2">
+       {/* <TabPane tab="用户使用数据" key="2">
           <PerView id="perView" />
-        </TabPane>
+        </TabPane>*/}
       </Tabs>
     </>
   );

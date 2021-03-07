@@ -23,7 +23,7 @@ const tabBoxes = (data) => {
     <div className={styles.tabBox}>
       <div className={styles.header}>组卷</div>
       <div className={styles.content}>{data.composePaper}套</div>
-      <div className={styles.footer}>共享 {data.composePaperShare}&nbsp;&nbsp;&nbsp;被打印 {data.composePaperPrint}</div>
+      <div className={styles.footer}>共享 {data.composePaperShare}</div>
     </div>
     <div className={styles.tabBox}>
       <div className={styles.header}>出题</div>
@@ -126,7 +126,7 @@ const TheView = (data) => {
     if (!school) { return }
     setLoading(true)
     const theData = {
-      startDate: date[0],
+      beginDate: date[0],
       endDate: date[1],
       school,
     }
@@ -134,14 +134,14 @@ const TheView = (data) => {
       setLoading(false)
       setCountData(res[0])
       setBarData({
-        ...res[1],
+        data: res[1],
         title: '打印作业卷科目'
       })
     });
   }, [date, school]);
   return (
     <Spin spinning={loading} delay={500}>
-      {updateTime('2020.4.12 14:00:23')}
+      {updateTime(countData?.updateTime)}
       <div className={styles.dateBoxes}>
         <div className={styles.schoolBoxes}>
           账号数据:
