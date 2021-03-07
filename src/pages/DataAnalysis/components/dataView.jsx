@@ -69,7 +69,7 @@ const TheView = (data) => {
   }, []);
   return (
     <Spin spinning={loading} delay={500}>
-      {updateTime('2020.4.12 14:00:23')}
+      {updateTime(countData?.updateTime)}
       {countData && tabBoxes(countData)}
       {barData && <Bar id={data.id} style={{ minWidth: 600, overflowX: 'auto' }} chartData={barData} />}
       {!barData && <Empty style={{ margin: '20px auto' }} />}

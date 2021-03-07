@@ -12,7 +12,9 @@ require('echarts/lib/component/title');
 const Bar = (data) => {
   useEffect(() => {
     const myChart = echarts.init(document.getElementById(`${data.id}`));
+    console.log("sfsdfsdfsdf.....................data.:{}",data)
     const { chartData } = data
+    console.log("sfsdfsdfsdf.....................chartDatachartDatachartData.:{}",chartData)
     const opt = {
       title: {
         text: chartData.title
@@ -33,7 +35,7 @@ const Bar = (data) => {
       xAxis: [
         {
           type: 'category',
-          data: chartData.xAxis,
+          data: chartData.name,
           axisTick: {
             alignWithLabel: true
           },
@@ -47,6 +49,7 @@ const Bar = (data) => {
       yAxis: [
         {
           type: 'value',
+          data: chartData.value,
           axisLine: {
             show: false
           }
