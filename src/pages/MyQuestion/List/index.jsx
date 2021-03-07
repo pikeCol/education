@@ -101,12 +101,9 @@ const MyQuestion = (props) => {
           onQuery={(querys) => {
             setQuery(querys)
           }} />
-        {
-          !currentUser.onlyTeacherAuthority && 
-          <Button type='primary' className={styles.btns}>
-            <Link to="/questionBank/personalQuestion/create">新建</Link>
-          </Button>
-        }
+        <Button type='primary' className={styles.btns}>
+          <Link to="/questionBank/personalQuestion/create">新建</Link>
+        </Button>
       </div>
         <QuestionList
             modifyRequest={getPersonalQuestionList}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Table, Button, Modal } from 'antd'
 import { Link } from 'react-router-dom'
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { getQuestionShareList, cancelShare, deleteSharePaper } from '@/services/questions/share'
+import { getQuestionShareList, cancelShare, deleteSharePaper, getPaperOwnList } from '@/services/questions/share'
 import styles from './index.less'
 import QuestionsearchHeader from '../../../components/QuestionsearchHeader'
 import RadioSearch from '../../../components/RadioSearch'
@@ -78,7 +78,33 @@ const searchOptions = [{
     value: '5',
     label: '非共享'
   }]
-const useList = (query, page) => {
+// const useList = (query, page) => {
+//   const [list, setList] = useState([])
+//   const [total, setTotal] = useState(0)
+//   useEffect(() => {
+//     const params = {
+//       pageNum: page.pageNum,
+//       pageSize: page.pageSize,
+//       ...query
+//     }
+//     getQuestionShareList(params).then(response => {
+//       if (response.code < 300) {
+//         const { data = {} } = response
+//         setList(data.records)
+//         setTotal(data.total)
+//       }
+//     })
+//   }, [query, page])
+//   return [list, total]
+// }
+const QuestionShare = (props) => {
+  const {currentUser} = props
+  const [query, setQuery] = useState({ status: '6' })
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const [page, setPage] = useState({
+    pageNum: 1,
+    pageSize: 10,
+  })
   const [list, setList] = useState([])
   const [total, setTotal] = useState(0)
   useEffect(() => {
@@ -95,17 +121,24 @@ const useList = (query, page) => {
       }
     })
   }, [query, page])
-  return [list, total]
-}
-const QuestionShare = (props) => {
-  const {currentUser} = props
-  const [query, setQuery] = useState({ status: '6' })
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const [page, setPage] = useState({
-    pageNum: 1,
-    pageSize: 10,
-  })
-  const [list, total] = useList(query, page)
+  // const useList = (query, page) => {
+  //   useEffect(() => {
+  //     const params = {
+  //       pageNum: page.pageNum,
+  //       pageSize: page.pageSize,
+  //       ...query
+  //     }
+  //     getQuestionShareList(params).then(response => {
+  //       if (response.code < 300) {
+  //         const { data = {} } = response
+  //         setList(data.records)
+  //         setTotal(data.total)
+  //       }
+  //     })
+  //   }, [query, page])
+  //   return [list, total]
+  // }
+  // const [list, total] = useList(query, page)
   const onQuery = (current) => {
     setQuery(current)
   }
@@ -122,6 +155,20 @@ const QuestionShare = (props) => {
       ...page,
       pageNum,
       pageSize
+    })
+  }
+  const personBtnClick = () => {
+    const params = {
+      pageNum: page.pageNum,
+      pageSize: page.pageSize,
+      ...query
+    }
+    getPaperOwnList(params).then(response => {
+      if (response.code < 300) {
+        const { data = {} } = response
+        setList(data.records)
+        setTotal(data.total)
+      }
     })
   }
   const onBtnClick = (s) => {
@@ -217,6 +264,7 @@ const QuestionShare = (props) => {
               : ''
             }
           {selectedRowKeys.length ? <span>{`已选中${selectedRowKeys.length * 1}项`}</span> : null}
+          <Button onClick={personBtnClick}>个人卷库</Button>
         </span>
       }
     </span>

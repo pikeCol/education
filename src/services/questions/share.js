@@ -22,12 +22,21 @@ export async function getQuestionShareList(params) {
     params: p
   });
 }
+
+export async function getPaperOwnList(params) {
+  return request('/v1/paper/own/list', {
+    method: 'GET',
+    params
+  });
+}
+
 export async function cancelShare(params) {
   return request('/v1/paper/share/cancel', {
     method: 'POST',
     data: params,
   });
 }
+
 export async function deleteSharePaper(params) {
   const {id} = params
   return request(`/v1/paper/${id}`, {

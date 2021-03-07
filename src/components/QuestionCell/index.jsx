@@ -284,7 +284,7 @@ const QuestionCell1 = (props) => {
         {
           status !== 2 ? 
           status !== 10 ?
-          (overlay && <Dropdown overlay={overlay} placement="bottomCenter">
+          (overlay && !currentUser.onlyTeacherAuthority && <Dropdown overlay={overlay} placement="bottomCenter">
             <Button type="link">更多 <DownOutlined /></Button>
           </Dropdown>)
           : null
