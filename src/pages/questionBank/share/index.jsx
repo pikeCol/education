@@ -70,14 +70,6 @@ const selectOptions = [
       }
     ]
   }]
-const searchOptions = [{
-  value: '6',
-  label: '共享'
-},
-  {
-    value: '5',
-    label: '非共享'
-  }]
 // const useList = (query, page) => {
 //   const [list, setList] = useState([])
 //   const [total, setTotal] = useState(0)
@@ -99,6 +91,28 @@ const searchOptions = [{
 // }
 const QuestionShare = (props) => {
   const {currentUser} = props
+  let searchOptions = [{
+    value: '6',
+    label: '共享'
+  },
+    {
+      value: '5',
+      label: '非共享'
+    }]
+  if (currentUser.onlyTeacherAuthority) {
+    searchOptions = [{
+      value: '6',
+      label: '共享'
+    },
+      {
+        value: '5',
+        label: '非共享'
+      },{
+        value: '99',
+        label: '个人卷库'
+      }]
+  }
+
   const [query, setQuery] = useState({ status: '6' })
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [page, setPage] = useState({
@@ -113,13 +127,24 @@ const QuestionShare = (props) => {
       pageSize: page.pageSize,
       ...query
     }
-    getQuestionShareList(params).then(response => {
-      if (response.code < 300) {
-        const { data = {} } = response
-        setList(data.records)
-        setTotal(data.total)
-      }
-    })
+    if (query.status === '99') {
+      delete params.status
+      getPaperOwnList(params).then(response => {
+        if (response.code < 300) {
+          const { data = {} } = response
+          setList(data.records)
+          setTotal(data.total)
+        }
+      })
+    } else {
+      getQuestionShareList(params).then(response => {
+        if (response.code < 300) {
+          const { data = {} } = response
+          setList(data.records)
+          setTotal(data.total)
+        }
+      })
+    }
   }, [query, page])
   // const useList = (query, page) => {
   //   useEffect(() => {
@@ -162,6 +187,9 @@ const QuestionShare = (props) => {
       pageNum: page.pageNum,
       pageSize: page.pageSize,
       ...query
+    }
+    if (query.status === '99') {
+      
     }
     getPaperOwnList(params).then(response => {
       if (response.code < 300) {
@@ -264,7 +292,7 @@ const QuestionShare = (props) => {
               : ''
             }
           {selectedRowKeys.length ? <span>{`已选中${selectedRowKeys.length * 1}项`}</span> : null}
-          <Button onClick={personBtnClick}>个人卷库</Button>
+          {/* <Button onClick={personBtnClick}>个人卷库</Button> */}
         </span>
       }
     </span>

@@ -171,7 +171,7 @@ const contentEnum = {
 
 
 const QuestionDeatailContent = (props) => {
-  const { className, data = {}, title, paperId, refresh } = props
+  const { className, data = {}, title, paperId, refresh, currentUser } = props
 
   const deletClick = (v) => {
     const { confirm } = Modal;
@@ -205,9 +205,12 @@ const QuestionDeatailContent = (props) => {
               {options?.map(x => <span key={x} dangerouslySetInnerHTML={{ '__html': x || '' }} />)}
             </div>
           </div>
-          <Button danger className="delete" onClick={() => {
-            deletClick(v)
-          }}>删除</Button>
+          {
+            !currentUser.onlyTeacherAuthority && 
+            <Button danger className="delete" onClick={() => {
+              deletClick(v)
+            }}>删除</Button>
+          }
         </div>
     });
   
@@ -517,7 +520,7 @@ const fetchList = ({pageSize = 10, pageNum = 1, ...query}) => {
       <div id="content">
       {
         detail.content && detail.content.map((v, index) => {
-          return <QuestionDeatailContent refresh={() => useDetail(params)} key={index} className='content' paperId={params.id} data={v} title={v.name}/>
+          return <QuestionDeatailContent currentUser={currentUser} refresh={() => useDetail(params)} key={index} className='content' paperId={params.id} data={v} title={v.name}/>
         })
       }
       </div>
