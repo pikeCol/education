@@ -134,7 +134,7 @@ const TheView = (data) => {
       setLoading(false)
       setCountData(res[0])
       setBarData({
-        ...res[1],
+        data: res[1],
         title: '打印作业卷科目'
       })
     });

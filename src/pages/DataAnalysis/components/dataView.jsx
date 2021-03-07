@@ -62,8 +62,8 @@ const TheView = (data) => {
       setLoading(false)
       setCountData(res[0])
       setBarData({
-        ...res[1],
-        title: '已发布题目统计 / 共享作业卷统计'
+        data: res[1],
+        title: '已发布题目统计 '
       })
     });
   }, []);

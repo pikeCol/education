@@ -12,9 +12,14 @@ require('echarts/lib/component/title');
 const Bar = (data) => {
   useEffect(() => {
     const myChart = echarts.init(document.getElementById(`${data.id}`));
-    console.log("sfsdfsdfsdf.....................data.:{}",data)
-    const { chartData } = data
-    console.log("sfsdfsdfsdf.....................chartDatachartDatachartData.:{}",chartData)
+   const { chartData } = data;
+    let names = [];
+    let values = [];
+    chartData.data.forEach(items =>{
+      names.push(items.name);
+      values.push(items.value);
+    });
+
     const opt = {
       title: {
         text: chartData.title
@@ -35,7 +40,7 @@ const Bar = (data) => {
       xAxis: [
         {
           type: 'category',
-          data: chartData.name,
+          data: names,
           axisTick: {
             alignWithLabel: true
           },
@@ -49,7 +54,6 @@ const Bar = (data) => {
       yAxis: [
         {
           type: 'value',
-          data: chartData.value,
           axisLine: {
             show: false
           }
@@ -60,7 +64,7 @@ const Bar = (data) => {
           name: '直接访问',
           type: 'bar',
           barWidth: '60%',
-          data: chartData.dataSource,
+          data: values,
         }
       ]
     }
