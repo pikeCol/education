@@ -42,6 +42,9 @@ const pageStyle = `
     font-size: 16px;
     color: #333333;
   }
+  .question-part {
+    margin-bottom: 60px
+  }
   .content .question .select,
   .content .answer .select {
     display: flex;
