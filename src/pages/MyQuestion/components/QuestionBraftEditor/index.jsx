@@ -34,6 +34,7 @@ const QuestionBraftEditor = (props) => {
         accepts: {
           video: false,
           accepts: false,
+          pasteImage: true
         }
       }}
       onChange={editorChange} />
