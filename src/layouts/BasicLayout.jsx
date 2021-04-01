@@ -30,7 +30,7 @@ import {
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { getAuthorityFromRouter } from '@/utils/utils';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.png';
 import { getMobileCaptcha, getCaptcha } from '@/services/login';
 import { getMenus } from '@/services/login';
 
