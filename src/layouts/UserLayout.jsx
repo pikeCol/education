@@ -1,11 +1,15 @@
-import { DefaultFooter, getMenuData, getPageTitle } from '@ant-design/pro-layout';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { Link, useIntl, connect } from 'umi';
-import React from 'react';
-import logo from '../assets/logo.png';
-import styles from './UserLayout.less';
+import {
+  DefaultFooter,
+  getMenuData,
+  getPageTitle,
+} from "@ant-design/pro-layout";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Link, useIntl, connect } from "umi";
+import React from "react";
+import logo from "../assets/logo.png";
+import styles from "./UserLayout.less";
 
-const UserLayout = props => {
+const UserLayout = (props) => {
   const {
     route = {
       routes: [],
@@ -15,7 +19,7 @@ const UserLayout = props => {
   const {
     children,
     location = {
-      pathname: '',
+      pathname: "",
     },
   } = props;
   const { formatMessage } = useIntl();
@@ -39,10 +43,10 @@ const UserLayout = props => {
             <div className={styles.header}>
               <Link to="/">
                 <img alt="logo" className={styles.logo} src={logo} />
-                <span className={styles.title}>加斯铭教育</span>
+                <span className={styles.title}>加思铭教育</span>
               </Link>
             </div>
-            <div className={styles.desc}>陕西省加斯铭教育科技有限公司</div>
+            <div className={styles.desc}>陕西省加思铭教育科技有限公司</div>
           </div>
           {children}
         </div>
