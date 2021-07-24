@@ -39,11 +39,29 @@ const QuestionBraftEditor = (props) => {
       }
     })
   }
+
+  const blockExportFn = (contentState, block) => {
+
+    const previousBlock = contentState.getBlockBefore(block.key)
+  console.log('====================================');
+  console.log(previousBlock && previousBlock.getType());
+  console.log('====================================');
+    if (block.type === 'unstyled' && previousBlock && previousBlock.getType() === 'atomic') {
+      return {
+        start: '',
+        end: '',
+      }
+    }
+  
+  }
+
+
   return <div className={styles.content}>
     <BraftEditor
       value={value}
       key={editKey}
       placeholder={placeholder}
+      converts={{ blockExportFn }}
       media={{
         uploadFn: upload,
         accepts: {
