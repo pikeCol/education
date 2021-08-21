@@ -1,7 +1,7 @@
 import React from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import styles from './style.less';
-import SchoolList from './components/schoolList';
+import SchoolView from './components/schoolView';
 
 const IndexHtml = () => {
 
@@ -9,7 +9,7 @@ const IndexHtml = () => {
     <>
       <PageHeaderWrapper />
       <div className={styles.bg} >
-        <SchoolList id="schoolList" />
+        <SchoolView id="schoolView" />
       </div>
     </>
   );

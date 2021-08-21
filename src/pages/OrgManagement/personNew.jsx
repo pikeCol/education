@@ -140,6 +140,25 @@ const PersonNew = (props) => {
               }
             </Select>
         </Form.Item>
+
+
+        <Form.Item
+          name="rangSchoolIds"
+          label="可查看学校"
+          rules={[
+            {
+              required: true,
+              message: '请输入可查看学校',
+            },
+          ]}
+          >
+            <Select mode="tags" multiple tokenSeparators={[',']} style={{ width: 400 }}>
+              {
+                schoolData.map(v => <Select.Option key={v.id} value={v.id}>{v.name}</Select.Option>)
+              }
+            </Select>
+        </Form.Item>
+
           <Form.Item
             name="nick"
             label="姓名"

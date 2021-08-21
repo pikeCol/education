@@ -57,3 +57,19 @@ export const getRouteAuthority = (path, routeData) => {
   });
   return authorities;
 };
+
+
+export const getDaysInMonth = (yearMonth) => {
+    let [year, month] = yearMonth.split('-')
+    var daysInMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+    if(month == '02' || month == 2){
+        year = parseInt(year);
+        daysInMonth[1] = (((0 == year % 4) && (0 != (year % 100))) || 
+        (0 == year % 400)) ? 29 : 28;
+    }
+    var flag = month.substr(0,1);
+    if(flag == 0){
+        month = month.substr(1,1);
+    }
+    return daysInMonth[month-1];
+}
