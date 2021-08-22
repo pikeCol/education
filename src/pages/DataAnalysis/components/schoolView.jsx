@@ -121,10 +121,10 @@ const TheView = (props) => {
       ...dParam
     }).then(res => {
       setTTotal(res.data.total)
-      settdScource(res.data.records)
+      setdownloadScource(res.data.records)
     })
 
-    settCol(td)
+    setdCol(td)
 
   }, [tDate, schoolId, dParam])
 

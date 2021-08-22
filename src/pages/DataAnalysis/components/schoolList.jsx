@@ -32,7 +32,7 @@ const columns = [
   {
     title: '操作',
     dataIndex: 'schoolId',
-    render: (t) => <a onClick={() => history.push(`/dataAnalysis/schoolDetail?schoolId=${1}`)}>详情</a>
+    render: (t) => <a onClick={() => history.push(`/dataAnalysis/schoolDetail?schoolId=${t}`)}>详情</a>
   },
 ]
 

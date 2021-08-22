@@ -93,6 +93,7 @@ const PersonNew = (props) => {
             phone: data.phone,
             roleIds: data.roleIds?.map(v => v.toString()),
             schoolId: data.schoolId,
+            rangeSchoolIds: data.rangeSchoolIds,
           })
         }
       })
@@ -143,7 +144,7 @@ const PersonNew = (props) => {
 
 
         <Form.Item
-          name="rangSchoolIds"
+          name="rangeSchoolIds"
           label="可查看学校"
           rules={[
             {
