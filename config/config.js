@@ -86,6 +86,11 @@ export default defineConfig({
           component: './DataAnalysis/schoolData'
         },
         {
+          path: '/dataAnalysis/schoolDetail',
+          name: 'schoolDetail',
+          component: './DataAnalysis/schoolDetail'
+        },
+        {
           path: '/dataAnalysis/personData',
           name: 'personData',
           icon: 'line-chart',

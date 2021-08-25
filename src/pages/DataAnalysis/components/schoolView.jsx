@@ -1,11 +1,14 @@
-import { DatePicker, Spin, Select, Empty } from 'antd';
+import { DatePicker, Spin, Select, Empty, Table } from 'antd';
 import React, { useState, useCallback, useEffect } from 'react';
 import moment from 'moment';
 import { getSchool } from '@/pages/OrgManagement/service';
-import { getDataAnalysisSchoolCount, getDataAnalysisBar } from '../service';
+import { getDataAnalysisSchoolCount, getDataAnalysisBar, getDataAnalysisLoginDetail, getDataAnalysisDownDetail } from '../service';
 import styles from '../style.less';
 import Bar from '../../../components/Charts/Bar';
+import { withRouter } from 'umi';
+import {getDaysInMonth} from '@/utils/utils'
 
+const monthFormat = 'YYYY-MM';
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 const updateTime = (data) => {
@@ -70,7 +73,13 @@ const getBar = async (data) => {
   return null
 
 }
-const TheView = (data) => {
+
+
+
+const TheView = (props) => {
+
+  const {schoolId} = props.location.query
+
   const [date, setDate] = useState([moment().format('YYYY-01-01 00:00:00'), moment().format('YYYY-MM-DD HH:mm:ss')]);
   const [school, setSchool] = useState();
   const [dateVal, setDateVal] = useState();
@@ -78,6 +87,73 @@ const TheView = (data) => {
   const [loading, setLoading] = useState(false);
   const [countData, setCountData] = useState();
   const [barData, setBarData] = useState();
+
+  // 登陆
+  const [tDate, setTDate] = useState(moment(new Date, monthFormat)) //教师时间
+  const [tTotal, setTTotal] = useState(0) //教师时间
+  const [tParam, setTParam] = useState({pageNum: 1, pageSize: 10}) //教师时间
+  const [tCol, settCol] = useState([])
+  const [tdScource, settdScource] = useState([])
+
+  // 下载
+
+  const [downloadDate, setdownloadDate] = useState(moment(new Date, monthFormat)) //教师时间
+  const [downloadTotal, setdownloadTotal] = useState(0) //教师时间
+  const [dParam, setdParam] = useState({pageNum: 1, pageSize: 10}) //教师时间
+  const [dCol, setdCol] = useState([])
+  const [downloadScource, setdownloadScource] = useState([])
+
+
+  useEffect(() => {
+    const md = moment(tDate).format(monthFormat)
+    const days = getDaysInMonth(md)
+    const td = [{dataIndex: 'name', title: '教师名字', width: 100}]
+    for (let index = 0; index < days; index++) {
+        td.push({
+          dataIndex: index + 1,
+          title: index + 1
+        })
+    }
+
+    getDataAnalysisDownDetail({
+      month: md,
+      schoolId,
+      ...dParam
+    }).then(res => {
+      setTTotal(res.data.total)
+      setdownloadScource(res.data.records)
+    })
+
+    setdCol(td)
+
+  }, [tDate, schoolId, dParam])
+
+
+  useEffect(() => {
+    const md = moment(tDate).format(monthFormat)
+    const days = getDaysInMonth(md)
+    const td = [{dataIndex: 'name', title: '教师名字', width: 100}]
+    for (let index = 0; index < days; index++) {
+        td.push({
+          dataIndex: index + 1,
+          title: index + 1
+        })
+    }
+
+    getDataAnalysisLoginDetail({
+      month: md,
+      schoolId,
+      ...tParam
+    }).then(res => {
+      setTTotal(res.data.total)
+      settdScource(res.data.records)
+    })
+
+    settCol(td)
+
+  }, [tDate, schoolId, tParam])
+
+
   const handleDatepicker = useCallback((datas, dateStrings) => {
     if (typeof datas === 'number') {
       setDateVal(null)
@@ -167,10 +243,43 @@ const TheView = (data) => {
         ))}
       </div>
       {countData && tabBoxes(countData)}
-      {barData && <Bar id={data.id} style={{ minWidth: 600, overflowX: 'auto' }} chartData={barData} />}
+      {barData && <Bar id={props.id} style={{ minWidth: 600, overflowX: 'auto' }} chartData={barData} />}
       {schoolData.length === 0 && <Empty style={{ margin: '20px auto' }} />}
+      <div className={styles.theader}>
+        <h3>教师登陆情况</h3>
+        <DatePicker value={tDate} format={monthFormat} onChange={(d) => setTDate(d)} picker="month"/>
+      </div>
+      <Table
+          dataSource={tdScource}
+          columns={tCol}
+          scroll={{
+            x: 1500
+          }}
+          pagination={{
+            showTotal: t => `共${t}条记录`,
+            total: tTotal,
+            onChange: (pageNum, pageSize) => setTParam({pageNum, pageSize})
+          }}
+        />
+
+        <div className={styles.theader}>
+          <h3>教师下载情况</h3>
+          <DatePicker value={tDate} format={monthFormat} onChange={(d) => setTDate(d)} picker="month"/>
+        </div>
+        <Table
+            dataSource={downloadScource}
+            columns={dCol}
+            scroll={{
+              x: 1500
+            }}
+            pagination={{
+              showTotal: t => `共${t}条记录`,
+              total: downloadTotal,
+              onChange: (pageNum, pageSize) => setdParam({pageNum, pageSize})
+            }}
+          />
     </Spin>
   );
 };
 
-export default TheView;
+export default withRouter(TheView);

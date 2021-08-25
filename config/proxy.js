@@ -8,7 +8,8 @@
 export default {
   dev: {
     '/api/': {
-      target: 'http://114.55.94.182/api/',
+      target: 'http://114.55.94.182:8080/api/',
+      // target: 'http://114.55.94.182/api/',
       changeOrigin: true,
       pathRewrite: {
         '^': '',

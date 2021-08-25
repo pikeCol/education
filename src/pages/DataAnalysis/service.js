@@ -40,3 +40,40 @@ export async function getDataAnalysisPersonCount(params) {
     },
   });
 }
+
+
+export async function getDataAnalysisOverall(params) {
+  return request('/v1/dataAnalysis/overall', {
+    method: 'GET',
+  });
+}
+
+
+export async function getDataAnalysisSchoolOverall(params) {
+  return request('/v1/dataAnalysis/schoolOverall', {
+    method: 'GET',
+    params: {
+      ...params
+    },
+  });
+}
+
+
+export async function getDataAnalysisLoginDetail(params) {
+  return request('/v1/dataAnalysis/login/detail', {
+    method: 'GET',
+    params: {
+      ...params
+    },
+  });
+}
+
+export async function getDataAnalysisDownDetail(params) {
+  return request('/v1/dataAnalysis/download/detail', {
+    method: 'GET',
+    params: {
+      ...params
+    },
+  });
+}
+
