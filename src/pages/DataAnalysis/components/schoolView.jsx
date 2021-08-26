@@ -81,8 +81,8 @@ const TheView = (props) => {
   const {schoolId} = props.location.query
 
   const [date, setDate] = useState([moment().format('YYYY-01-01 00:00:00'), moment().format('YYYY-MM-DD HH:mm:ss')]);
-  const [school, setSchool] = useState();
-  const [dateVal, setDateVal] = useState();
+  const [school, setSchool] = useState(schoolId);
+   const [dateVal, setDateVal] = useState();
   const [schoolData, setSchoolData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [countData, setCountData] = useState();
@@ -219,7 +219,7 @@ const TheView = (props) => {
     <Spin spinning={loading} delay={500}>
       {updateTime(countData?.updateTime)}
       <div className={styles.dateBoxes}>
-        <div className={styles.schoolBoxes}>
+{/*        <div className={styles.schoolBoxes}>
           账号数据:
           <Select
             showSearch
@@ -236,7 +236,7 @@ const TheView = (props) => {
               <Option value={item.id} key={item.id}>{item.name}</Option>
             ))}
           </Select>
-        </div>
+        </div>*/}
         <RangePicker value={dateVal} onChange={handleDatepicker} style={{ marginRight: 15 }} />
         {dateType.map(item => (
           <span key={item.value} onClick={() => handleDatepicker(item.value)}>{item.name}</span>

@@ -86,12 +86,12 @@ const SubjectManage = () => {
       })
     } else {
       const length = selectedInfo.node.pos.split('-').length
-      if (length >= 6) {
-        message.error('最多添加5个层级')
+      if (length >= 7) {
+        message.error('最多添加6个层级')
         return
       }
       addQuestionSubject({
-        leaf: length === 5 ? 1 : length === 3 ? 2 : 0, // 1：叶子节点  2：年级节点
+        leaf: length === 6 ? 1 : length === 3 ? 2 : 0, // 1：叶子节点  2：年级节点
         name: inputText,    // 名称
         parentId: selectedInfo.node.id
       }).then(res => {
