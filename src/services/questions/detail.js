@@ -28,3 +28,10 @@ export async function paperPrint(params) {
     params
   });
 }
+
+export async function paperLog(params) {
+  return request(`/v1/paper/log`, {
+    method: 'POST',
+    data: params
+  });
+}
