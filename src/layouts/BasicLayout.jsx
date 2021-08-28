@@ -107,6 +107,12 @@ const BasicLayout = (props) => {
       if (res.code < 300) {
         const data = res.data;
         data.unshift({
+          path: '/dataAnalysis/schoolData',
+          name: '学校数据',
+          icon: 'dot-chart',
+          component: './DataAnalysis/schoolData',
+        });
+        data.unshift({
           path: '/welcome',
           icon: 'smile',
           name: '首页',

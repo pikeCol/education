@@ -35,27 +35,28 @@ const Model = {
           type: 'changeLoginStatus',
           payload: response.data,
         }); // Login successfully
+        history.replace('/')
 
-        const urlParams = new URL(window.location.href);
-        const params = getPageQuery();
-        let { redirect } = params;
+        // const urlParams = new URL(window.location.href);
+        // const params = getPageQuery();
+        // let { redirect } = params;
 
-        if (redirect) {
-          const redirectUrlParams = new URL(redirect);
+        // if (redirect) {
+        //   const redirectUrlParams = new URL(redirect);
 
-          if (redirectUrlParams.origin === urlParams.origin) {
-            redirect = redirect.substr(urlParams.origin.length);
+        //   if (redirectUrlParams.origin === urlParams.origin) {
+        //     redirect = redirect.substr(urlParams.origin.length);
 
-            if (redirect.match(/^\/.*#/)) {
-              redirect = redirect.substr(redirect.indexOf('#') + 1);
-            }
-          } else {
-            window.location.href = '/';
-            return;
-          }
-        }
+        //     if (redirect.match(/^\/.*#/)) {
+        //       redirect = redirect.substr(redirect.indexOf('#') + 1);
+        //     }
+        //   } else {
+        //     window.location.href = '/';
+        //     return;
+        //   }
+        // }
 
-        history.replace(redirect || '/');
+        // history.replace(redirect || '/');
       }
     },
 

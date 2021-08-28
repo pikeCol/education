@@ -79,12 +79,12 @@ export default defineConfig({
           icon: 'bar-chart',
           component: './DataAnalysis/managementData'
         },
-        {
-          path: '/dataAnalysis/schoolData',
-          name: 'schoolData',
-          icon: 'dot-chart',
-          component: './DataAnalysis/schoolData'
-        },
+        // {
+        //   path: '/dataAnalysis/schoolData',
+        //   name: 'schoolData',
+        //   icon: 'dot-chart',
+        //   component: './DataAnalysis/schoolData'
+        // },
         {
           path: '/dataAnalysis/schoolDetail',
           name: 'schoolDetail',
