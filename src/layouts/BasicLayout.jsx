@@ -112,11 +112,11 @@ const BasicLayout = (props) => {
           icon: 'dot-chart',
           component: './DataAnalysis/schoolData',
         });
-        data.unshift({
-          path: '/welcome',
-          icon: 'smile',
-          name: '首页',
-        });
+        // data.unshift({
+        //   path: '/welcome',
+        //   icon: 'smile',
+        //   name: '首页',
+        // });
         setMenusList(data);
         // setMenusList(data)
       }
