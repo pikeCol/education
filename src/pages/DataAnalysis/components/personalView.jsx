@@ -137,7 +137,7 @@ const TheView = () => {
     if (!account) { return }
     setLoading(true)
     const theData = {
-      startDate: date[0],
+      beginDate: date[0],
       endDate: date[1],
       school,
       account
@@ -149,7 +149,7 @@ const TheView = () => {
   }, [date, account]);
   return (
     <Spin spinning={loading} delay={500}>
-      {updateTime('2020.4.12 14:00:23')}
+      {updateTime(countData?.updateTime)}
       <div className={styles.dateBoxes} style={{ marginBottom: 15 }}>
         账号数据:
           <Select
