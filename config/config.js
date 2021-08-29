@@ -55,6 +55,17 @@ export default defineConfig({
         component: './Welcome',
       },
       {
+          path: '/dataAnalysis/schoolData',
+          name: 'schoolData',
+          icon: 'dot-chart',
+          component: './DataAnalysis/schoolData'
+        },
+        {
+          path: '/dataAnalysis/schoolDetail',
+          name: 'schoolDetail',
+          component: './DataAnalysis/schoolDetail'
+        },
+      {
         path: '/admin',
         name: 'admin',
         icon: 'crown',
@@ -85,11 +96,11 @@ export default defineConfig({
         //   icon: 'dot-chart',
         //   component: './DataAnalysis/schoolData'
         // },
-        {
-          path: '/dataAnalysis/schoolDetail',
-          name: 'schoolDetail',
-          component: './DataAnalysis/schoolDetail'
-        },
+        // {
+        //   path: '/dataAnalysis/schoolDetail',
+        //   name: 'schoolDetail',
+        //   component: './DataAnalysis/schoolDetail'
+        // },
         {
           path: '/dataAnalysis/personData',
           name: 'personData',
