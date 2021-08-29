@@ -45,8 +45,8 @@ const getCount = async () => {
   return null
 
 }
-const getBar = async () => {
-  const res = await getDataAnalysisBar()
+const getBar = async (param) => {
+  const res = await getDataAnalysisBar(param)
   if (res.code < 300) {
     return res.data
   }
@@ -58,7 +58,7 @@ const TheView = (data) => {
   const [countData, setCountData] = useState();
   const [barData, setBarData] = useState();
   useEffect(() => {
-    Promise.all([getCount(), getBar()]).then(res => {
+    Promise.all([getCount(), getBar({type:1})]).then(res => {
       setLoading(false)
       setCountData(res[0])
       setBarData({

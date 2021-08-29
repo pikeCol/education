@@ -206,11 +206,11 @@ const TheView = (props) => {
       endDate: date[1],
       school,
     };
-    Promise.all([getCount(theData), getBar(theData)]).then((res) => {
+    Promise.all([getCount(theData)]).then((res) => {
       setLoading(false);
       setCountData(res[0]);
       setBarData({
-        data: res[1],
+        data: res[0]?.result,
         title: '打印作业卷科目',
       });
     });
