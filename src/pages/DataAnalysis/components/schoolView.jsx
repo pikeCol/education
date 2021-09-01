@@ -189,12 +189,12 @@ const TheView = (props) => {
       pageNum: 1,
       pageSize: 999,
     };
-    getSchoolList(theData).then((res) => {
+   /* getSchoolList(theData).then((res) => {
       if (res.records.length > 0) {
         setSchoolData(res.records);
         setSchool(res.records[0].id);
       }
-    });
+    });*/
   }, []);
   useEffect(() => {
     if (!school) {
@@ -204,7 +204,7 @@ const TheView = (props) => {
     const theData = {
       beginDate: date[0],
       endDate: date[1],
-      school,
+      schoolId: school,
     };
     Promise.all([getCount(theData)]).then((res) => {
       setLoading(false);
