@@ -144,9 +144,10 @@ const SchoolManagement = () => {
       key: 'phone',
     },
     {
-      title: '科目年级',
+      title: '科目2年级',
       dataIndex: 'subjectInfo',
-      key: 'subjectInfo',
+      width: '30%',
+      render: text => text?.join("；"),
     },
     {
       title: '创建时间',

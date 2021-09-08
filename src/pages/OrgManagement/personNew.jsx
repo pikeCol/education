@@ -30,12 +30,12 @@ const PersonNew = (props) => {
   const [roleList, setRoleList] = useState([]);
   const [personInfo, setPersonInfo] = useState({});
   const formRef = useRef()
-  
+
   const handleSubmit = useCallback(async (val) => {
     setLoading(true)
     const theData = {
       ...val,
-      grades: [val.grades?.pop()],
+      grades: [val.grades1?.pop(),val.grades2?.pop(),val.grades3?.pop(),val.grades4?.pop()].filter(item => item),
       id: query.id
     }
     console.log(theData);
@@ -86,9 +86,13 @@ const PersonNew = (props) => {
         console.log(res);
         const {data,code} = res
         if (code < 300) {
-          formRef.current.setFieldsValue({
+          let size = data.gradeTrees ? data.gradeTrees.length : 0;
+           formRef.current.setFieldsValue({
             nick: data.nick,
-            grades: data.gradeTrees? data.gradeTrees[0] : null,
+            grades1: data.gradeTrees && size > 0? data.gradeTrees[0] : null,
+            grades2: data.gradeTrees && size > 1? data.gradeTrees[1] : null,
+            grades3: data.gradeTrees && size > 2? data.gradeTrees[2] : null,
+            grades4: data.gradeTrees && size > 3? data.gradeTrees[3] : null,
             mail: data.mail,
             phone: data.phone,
             roleIds: data.roleIds?.map(v => v.toString()),
@@ -201,14 +205,44 @@ const PersonNew = (props) => {
           >
             <Input style={{ width: 400 }} maxLength={11} />
           </Form.Item>
-          <Form.Item 
-            name="grades" 
-            label="年级"
+          <Form.Item
+            name="grades1"
+            label="年级1"
           >
             <Cascader
-              style={{ width: 400 }} 
+              style={{ width: 400 }}
               options={gradeList}
               fieldNames={{label: 'name', value: 'id'}}
+            />
+          </Form.Item>
+          <Form.Item
+              name="grades2"
+              label="年级2"
+          >
+            <Cascader
+                style={{ width: 400 }}
+                options={gradeList}
+                fieldNames={{label: 'name', value: 'id'}}
+            />
+          </Form.Item>
+          <Form.Item
+              name="grades3"
+              label="年级3"
+          >
+            <Cascader
+                style={{ width: 400 }}
+                options={gradeList}
+                fieldNames={{label: 'name', value: 'id'}}
+            />
+          </Form.Item>
+          <Form.Item
+              name="grades4"
+              label="年级4"
+          >
+            <Cascader
+                style={{ width: 400 }}
+                options={gradeList}
+                fieldNames={{label: 'name', value: 'id'}}
             />
           </Form.Item>
           <Form.Item wrapperCol={{
