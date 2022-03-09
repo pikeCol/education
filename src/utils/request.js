@@ -10,8 +10,8 @@ import { getPageQuery } from '@/utils/utils';
 
 const globalData = {
    //url: 'http://114.55.94.182:8080'
-  // url: 'http://127.0.0.1:8080',
-   url: 'https://www.sengloo.com/api'
+   url: 'http://127.0.0.1:8080',
+   //url: 'https://www.sengloo.com/api'
 }
 const codeMessage = {
   200: '服务器成功返回请求的数据。',

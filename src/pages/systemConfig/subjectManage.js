@@ -61,7 +61,7 @@ const SubjectManage = () => {
     }
     return item
   })
-  
+
 
   const onSelect = (selectedKeys, info) => {
     console.log('selected', selectedKeys, info);
@@ -85,14 +85,18 @@ const SubjectManage = () => {
         setModalVisible(false);
       })
     } else {
-      const length = selectedInfo.node.pos.split('-').length
-      if (length >= 7) {
-        message.error('最多添加6个层级')
+      debugger
+      //const length = selectedInfo.node.pos.split('-').length
+      let parentLevel = selectedInfo.node.level
+      let childLevel = parentLevel + 1;
+      if (childLevel > 7) {
+        message.error('层级已达到上限')
         return
       }
       addQuestionSubject({
-        leaf: length === 6 ? 1 : length === 3 ? 2 : 0, // 1：叶子节点  2：年级节点
+        leaf: childLevel === 7 ? 1 : childLevel === 4 ? 2 : 0, // 1：叶子节点  2：年级节点
         name: inputText,    // 名称
+        level: childLevel,   //相对于父节点 + 1
         parentId: selectedInfo.node.id
       }).then(res => {
         initTree()
@@ -103,13 +107,10 @@ const SubjectManage = () => {
   };
 
   const handleDelete = () => {
-    if (selectedInfo.node.pos.split('-').length >= 6) {
-      message.error('第五层级不能删除')
-      return
-    }
     deleteQuestionSubject({
       id: selectedInfo.node.id
     }).then(() =>{
+      setDeleteModalVisible(false)
       initTree()
     })
   }
