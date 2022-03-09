@@ -16,6 +16,16 @@ const toDetail = (data) => {
     }
   })
 }
+const toEdit = (data) => {
+  // history.push(`./school/${data.id}`)
+  history.push({
+    pathname: `./school/edit`,
+    name: 'schoolEdit',
+    query: {
+      id: data.id
+    }
+  })
+}
 const columns = [
   {
     title: '学校名称',
@@ -66,6 +76,7 @@ const columns = [
       return (
         <span>
           <a onClick={() => toDetail(record)}>详情</a>
+          <a  className={styles.aPadding} onClick={() => toEdit(record)}>修改</a>
         </span>
       )
     },

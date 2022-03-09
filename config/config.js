@@ -48,12 +48,7 @@ export default defineConfig({
         path: '/',
         redirect: '/dataAnalysis/schoolData',
       },
-      {
-        path: '/welcome',
-        name: 'welcome',
-        icon: 'smile',
-        component: './Welcome',
-      },
+
       {
           path: '/dataAnalysis/schoolData',
           name: 'schoolData',
@@ -65,20 +60,6 @@ export default defineConfig({
           name: 'schoolDetail',
           component: './DataAnalysis/schoolDetail'
         },
-      {
-        path: '/admin',
-        name: 'admin',
-        icon: 'crown',
-        component: './Admin',
-        authority: ['admin'],
-        routes: [{
-          path: '/admin/sub-page',
-          name: 'sub-page',
-          icon: 'smile',
-          component: './Welcome',
-          authority: ['admin'],
-        },],
-      },
       // 数据分析tab
       {
         path: '/dataAnalysis',
@@ -90,17 +71,7 @@ export default defineConfig({
           icon: 'bar-chart',
           component: './DataAnalysis/managementData'
         },
-        // {
-        //   path: '/dataAnalysis/schoolData',
-        //   name: 'schoolData',
-        //   icon: 'dot-chart',
-        //   component: './DataAnalysis/schoolData'
-        // },
-        // {
-        //   path: '/dataAnalysis/schoolDetail',
-        //   name: 'schoolDetail',
-        //   component: './DataAnalysis/schoolDetail'
-        // },
+
         {
           path: '/dataAnalysis/personData',
           name: 'personData',
@@ -114,7 +85,6 @@ export default defineConfig({
         path: '/questionBank',
         name: 'questionBank',
         icon: 'bank',
-        // component: './Admin',
         routes: [
           {
             path: '/questionBank/share',
@@ -139,12 +109,6 @@ export default defineConfig({
             hideInMenu: true,
             path: '/questionBank/manage/detail/:id',
             component: './questionBank/detail',
-          },
-          {
-            path: '/questionBank/fast',
-            name: 'fast',
-            icon: 'pull-request',
-            component: './Welcome'
           },
           {
             path: '/questionBank/personalQuestion',
@@ -190,13 +154,11 @@ export default defineConfig({
           hideInMenu: true,
           path: '/auditManage/wrongAudit/detail/:id',
           component: './questionBank/detail',
-          // component: './Welcome'
         },
         {
           hideInMenu: true,
           path: '/auditManage/publishAudit/detail/:id',
           component: './questionBank/detail',
-          // component: './Welcome'
         }
         ],
       },

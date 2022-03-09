@@ -1,6 +1,5 @@
 export default {
-  'menu.welcome': '欢迎',
-  'menu.home': '首页',
+  'menu.home': '学校数据',
   'menu.admin': '管理页',
   'menu.admin.sub-page': '二级管理页',
   'menu.login': '登录',

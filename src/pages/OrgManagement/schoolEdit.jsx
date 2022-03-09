@@ -8,8 +8,7 @@ import styles from './style.less';
 
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
-const { location: { query } } = history
-const formItemLayout = {
+ const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
     sm: { span: 8 },
@@ -30,9 +29,11 @@ const getDetail = async (data) => {
   }
   return null
 }
-const IndexHtml = () => {
+const IndexHtml = (props) => {
+  const {query} = props.location;
   const [loading, setLoading] = useState(false);
   const [schoolData, setSchoolData] = useState();
+
   const handleSubmit = useCallback(async (val) => {
 
     setLoading(true)
@@ -47,7 +48,7 @@ const IndexHtml = () => {
     }
     console.log(theData);
     const res = await postNewSchool(theData)
-    setLoading(true)
+    setLoading(false)
     if (res.code < 300) {
       message.success('编辑学校成功')
       history.go(-1)
@@ -69,8 +70,8 @@ const IndexHtml = () => {
           initialValues={{
             ...schoolData,
             effectiveTime: [
-              schoolData.effectiveTime && moment(schoolData.effectiveTime[0]),
-              schoolData.effectiveTime && moment(schoolData.effectiveTime[1]),
+              schoolData.effectiveStartTime && moment(schoolData.effectiveStartTime,"yyyy-MM-DD"),
+              schoolData.effectiveEndTime && moment(schoolData.effectiveEndTime,'yyyy-MM-DD'),
             ],
           }}
         >
@@ -99,6 +100,41 @@ const IndexHtml = () => {
               },
             ]}>
             <RangePicker style={{ width: 400 }} />
+          </Form.Item>
+          <Form.Item
+              name="adminNick"
+              label="学校管理员昵称（用于创建账号）"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入学校管理员昵称（用于创建账号）',
+                },
+              ]}
+          >
+            <Input style={{ width: 400 }} maxLength={20} />
+          </Form.Item>
+          <Form.Item
+              name="adminPhone"
+              label="学校管理员手机号（用于创建账号）"
+              rules={[
+                {
+                  validator(rule, value) {
+                    const telStr = /^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/;
+                    if (!value || telStr.test(value)) {
+                      return Promise.resolve();
+                    }
+                    // eslint-disable-next-line prefer-promise-reject-errors
+                    return Promise.reject('手机号码输入不规范')
+                  },
+                  message: '请输入正确的手机号',
+                },
+                {
+                  required: true,
+                  message: '请输入学校管理员手机号（用于创建账号）',
+                },
+              ]}
+          >
+            <Input style={{ width: 400 }} maxLength={11} />
           </Form.Item>
           <Form.Item
             name="remarks"
