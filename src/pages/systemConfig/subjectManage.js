@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Tree, Switch, Modal, Input, message } from 'antd';
+import {Checkbox, Tree, Switch, Modal, Input, message } from 'antd';
 import { CarryOutOutlined, FormOutlined, MinusOutlined, PlusOutlined, ExclamationCircleOutlined} from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout'
 import { getSubjectDictionaryList, addQuestionSubject, deleteQuestionSubject, updateQuestionSubject } from '@/services/myQuestion/create'
@@ -8,6 +8,7 @@ import styles from './index.less'
 
 
 const SubjectManage = () => {
+  const [showLeafChoose, setShowLeafChoose] = useState(false);
 
   const [showLine, setShowLine] = useState(true);
   const [showIcon, setShowIcon] = useState(false);
@@ -20,6 +21,7 @@ const SubjectManage = () => {
   const [selectedKeys, setSelectedKeys] = useState([]);
   const [selectedInfo, setSelectedInfo] = useState();
   const [inputText, setInputText] = useState();
+  const [isLeaf, setIsLeaf] = useState();
 
   // 递归数据
   useEffect(() => {
@@ -64,6 +66,8 @@ const SubjectManage = () => {
 
 
   const onSelect = (selectedKeys, info) => {
+    setIsLeaf(false)
+    setShowLeafChoose(info.node.level >= 3)
     console.log('selected', selectedKeys, info);
     setInputText(info.node.name)
     setSelectedKeys(selectedKeys)
@@ -89,12 +93,14 @@ const SubjectManage = () => {
       //const length = selectedInfo.node.pos.split('-').length
       let parentLevel = selectedInfo.node.level
       let childLevel = parentLevel + 1;
-      if (childLevel > 7) {
+/*      if (childLevel > 7) {
         message.error('层级已达到上限')
         return
-      }
+      }*/
+      let aaa = isLeaf;
+      debugger
       addQuestionSubject({
-        leaf: childLevel === 7 ? 1 : childLevel === 4 ? 2 : 0, // 1：叶子节点  2：年级节点
+        leaf: isLeaf ? 1 : childLevel === 4 ? 2 : 0, // 1：叶子节点  2：年级节点
         name: inputText,    // 名称
         level: childLevel,   //相对于父节点 + 1
         parentId: selectedInfo.node.id
@@ -124,6 +130,10 @@ const SubjectManage = () => {
       setInputText(e.target.value)
   }
 
+  const onChange = e =>{
+    setIsLeaf(e.target.checked)
+  }
+
 
   return (
     <PageHeaderWrapper>
@@ -139,6 +149,11 @@ const SubjectManage = () => {
       </div>
       <Modal title={modalType === 1 ? '编辑' : '新增'} visible={modalVisible} onOk={handleOk} onCancel={handleCancel}>
         <Input value={inputText} onChange={handleInputChange}/>
+        {
+          modalType !== 1 && showLeafChoose ? <Checkbox onChange={onChange} style={{paddingTop:'20px'}}>指定当前层级为最后一层</Checkbox>
+              : ("")
+        }
+
       </Modal>
       <Modal title={<span><ExclamationCircleOutlined /> 确认</span>} visible={deleteModalVisible} onOk={handleDelete} onCancel={() =>setDeleteModalVisible(false)}>
         确定删除？

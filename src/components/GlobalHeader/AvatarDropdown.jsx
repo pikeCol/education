@@ -57,15 +57,14 @@ class AvatarDropdown extends React.Component {
     return currentUser  ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className={`${styles.action} ${styles.account}`}>
-          {
+     {/*     {
             currentUser.avatar ?
             <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" />
             :
             <Avatar size="small" className={styles.avatar} alt="avatar">
-              {currentUser.nick}
             </Avatar>
-          }
-          <span className={styles.name}>{currentUser.name}</span>
+          }*/}
+          <span className={styles.name}>{currentUser.nick}</span>
         </span>
       </HeaderDropdown>
     ) : (
