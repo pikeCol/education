@@ -1,7 +1,7 @@
-import { Button, Table, Modal, Select} from 'antd';
+import {Button, Table, Modal, Select, message} from 'antd';
 import React, { useState, useCallback, useEffect } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { getAccounts } from '@/pages/OrgManagement/service';
+import {deleteAccount, getAccounts} from '@/pages/OrgManagement/service';
 import { getSchool } from '@/pages/OrgManagement/service';
 import styles from './style.less';
 import { history } from 'umi'
@@ -27,6 +27,7 @@ const SchoolManagement = () => {
 
   const [loading, setLoading] = useState(false)
   const handleSearch = () => {
+    debugger
     setLoading(true)
     const theData = {
       pageNum,
@@ -34,7 +35,6 @@ const SchoolManagement = () => {
       schoolId: school
     }
     getAccountsList(theData).then(res => {
-      console.log(res);
       if (res && res.records) {
         setAccounts(res.records)
         setTotal(res.total)
@@ -111,6 +111,24 @@ const SchoolManagement = () => {
       onCancel: handleCancel
     });
   }, []);
+
+  const deleteUser = (data) => {
+    Modal.confirm({
+      title: '提示',
+      content: '是否确定删除？',
+      onOk: () =>{
+        deleteAccount(data.id).then(res =>{
+          if (res.code < 300) {
+            handleSearch();
+            message.success('成功删除');
+          }else{
+            message.error('成功失败');
+          }
+        })
+      }
+    });
+  };
+
   useEffect(() => {
     setLoading(true)
     const theData = {
@@ -172,7 +190,7 @@ const SchoolManagement = () => {
                   id: record.id
                 }
               }}>详情</Link>
-            {/* <a onClick={() => confirm(record)}>删除</a> */}
+            <a onClick={() => deleteUser(record)}>删除</a>
           </div>
         )
       },

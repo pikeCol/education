@@ -1,4 +1,5 @@
 import request from '@/utils/request';
+import {number} from "echarts/src/export";
 
 export async function getSchool(params) {
   return request('/v1/orgManager/schools', {
@@ -30,6 +31,12 @@ export async function putAccount(params) {
   return request('/v1/orgManager/schools/account', {
     method: 'PUT',
     data: params,
+  });
+}
+
+export async function deleteAccount(userId=number) {
+  return request('/v1/orgManager/account/' + userId, {
+    method: 'delete',
   });
 }
 
